@@ -62,14 +62,14 @@ class Nodo():
             aux.insertarHijo(nodo, nivel, nActual+1)
     
     #Recorre el arbol
-    def inorden(self):
+    def preorden(self):
         print("Soy la funcion:", self.getNombre())
         #print("Mi Id es:", self.id)
         print("El estado de '"+self.getNombre()+"' es:", self.estado)
         time.sleep(1)
         if len(self.hijos) != 0:
             for i in self.hijos:
-                i.inorden()
+                i.preorden()
         print("Valor retornado por '"+self.getNombre()+"' es:", self.getValor())
         time.sleep(1)
     
@@ -143,4 +143,4 @@ def aux(frame, event, arg):
 
 sys.settrace(aux)
 
-arbol.inorden()
+arbol.preorden()
