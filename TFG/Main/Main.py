@@ -6,6 +6,7 @@ Created on 3 ene. 2018
 import sys
 import time
 from enum import Enum
+from copy import deepcopy
 
 class Estado(Enum):
     INDEFINIDO = 1
@@ -23,7 +24,7 @@ class Nodo():
         
     #Gestion del valor del nodo
     def setValor(self, valor):
-        self.valor = valor
+        self.valor = deepcopy(valor)
         
     def getValor(self):
         return self.valor
@@ -132,15 +133,15 @@ def trace_calls(frame, event, arg):
                 arbol.insertar(hijo, contador.valor())
                 
     return trace_calls
-tr = sys.gettrace()   
+
+#Guardo la traza original del programa
+tr = sys.gettrace()  
+
+#Traceo la ejecucion del programa
 sys.settrace(trace_calls)
-
 d()
+
+#Cargo la traza original guardada
 sys.settrace(tr)
-
-def aux(frame, event, arg):
-    return
-
-sys.settrace(aux)
 
 arbol.preorden()
