@@ -19,7 +19,7 @@ class Nodo():
         self.nFuncion = None
         self.valor = None
         self.hijos = []
-        self.id = None
+        self.nNodos = 1
         self.estado = Estado.INDEFINIDO
         
     #Gestion del valor del nodo
@@ -42,7 +42,6 @@ class Nodo():
     #Gestion del nombre de la funcion del nodo
     def setNombre(self, nombre):
         self.nFuncion = nombre
-        self.id =  cId.valor()
         cId.sumar()
         
     def getNombre(self):
@@ -62,11 +61,20 @@ class Nodo():
             aux = self.hijos[len(self.hijos)-1]
             aux.insertarHijo(nodo, nivel, nActual+1)
     
-    #Recorre el arbol
+    #Calcula el num nodos asociados a un padre
+    def calcularPeso(self):
+        if len(self.hijos) != 0:
+            for i in self.hijos:
+                self.nNodos += i.calcularPeso()
+     
+        return self.nNodos
+    
+    #Recorre el arbol. Actualmente solo sirve para comprobar que los datos estan OK
     def preorden(self):
         print("Soy la funcion:", self.getNombre())
         #print("Mi Id es:", self.id)
         print("El estado de '"+self.getNombre()+"' es:", self.estado)
+        print("Num hijos de '"+self.getNombre()+"' es:", self.nNodos)
         time.sleep(1)
         if len(self.hijos) != 0:
             for i in self.hijos:
@@ -134,14 +142,9 @@ def trace_calls(frame, event, arg):
                 
     return trace_calls
 
-#Guardo la traza original del programa
-tr = sys.gettrace()  
-
-#Traceo la ejecucion del programa
-sys.settrace(trace_calls)
-d()
-
-#Cargo la traza original guardada
-sys.settrace(tr)
-
-arbol.preorden()
+tr = sys.gettrace()  #Guardo la traza original del programa
+sys.settrace(trace_calls) #Traceo la ejecucion del programa
+d() #Ejecuto el programa de prueba
+sys.settrace(tr) #Cargo la traza original guardada
+arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
+arbol.preorden() #Compruebo que los datos almacenados estan bien
