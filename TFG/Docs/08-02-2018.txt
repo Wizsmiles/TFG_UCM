@@ -1,0 +1,20 @@
+--- Estrategias de navegación ---
+  . Top Down          V
+  . Heaviest First    V
+  . Divide & query
+  . Divide & heaviest
+
+- Función dameSiguiente para ir preguntando al usuario.
+- Empezar la depuración cuando el usuario desee.
+- "Colorear" nodos según la respuesta del usuario.
+- Escoger respuestas usuario:
+  . Sí
+  . No
+  . Trust: confías en cierta función SIEMPRE.
+  . Don't know: 2 estrategias. Preguntar otra vez o pasar olímpicamente de ahí en adelante
+  . Inadmisible: es una respuesta más user-friendly pero sigue siendo un no.
+
+- Añadir excepciones para hacer "return".
+- Probar con variables globales y objetos mutables (creo que ya está hecho).
+- Añadir una opción undo().
+- Implementar memorización: si 2 nodos son iguales o muy similares, no se preguntará al user.
