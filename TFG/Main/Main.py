@@ -7,6 +7,7 @@ import sys
 import time
 import Recorridos
 import Nodo
+import View
 
 class MiContador():
     count = 0
@@ -66,4 +67,5 @@ sys.settrace(tr) #Cargo la traza original guardada
 arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 recorrido = Recorridos.Recorrido(arbol)
 recorrido.inicializarHF()
-arbol.preorden() #Compruebo que los datos almacenados estan bien
+# arbol.preorden() #Compruebo que los datos almacenados estan bien
+View.TreeView.show(arbol)
