@@ -8,7 +8,8 @@ class Estado(Enum):
     INDEFINIDO = 1
     VALIDO = 2
     ERROR = 3
-
+    CONFIAR = 4
+    
 class Nodo():
     #Constructor
     def __init__(self):
@@ -17,7 +18,15 @@ class Nodo():
         self.hijos = []
         self.nNodos = 1
         self.estado = Estado.INDEFINIDO
-
+        self.paramsEntrada = None
+        
+    #Gestion de los parametros de entradas de cada funcion
+    def setParamsEntrada(self, params):
+        self.paramsEntrada = deepcopy(params)
+        
+    def getParamsEntrada(self):
+        return self.paramsEntrada
+    
     #Gestion del valor del nodo
     def setValor(self, valor):
         self.valor = deepcopy(valor)
@@ -69,6 +78,7 @@ class Nodo():
         print("Soy la funcion:", self.getNombre())
         #print("Mi Id es:", self.id)
         print("El estado de '"+self.getNombre()+"' es:", self.estado)
+        print("Los parametros de entrada de '"+self.getNombre()+"' son:", self.paramsEntrada)
         print("Num hijos de '"+self.getNombre()+"' es:", self.nNodos)
         time.sleep(1)
         if len(self.hijos) != 0:

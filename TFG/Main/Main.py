@@ -40,22 +40,36 @@ def d():
     h()
     return c() + 5
 
+
+#Prueba parametros de entrada a una funcion
+def j(holita):
+    h()
+
+
 def trace_calls(frame, event, arg):
 
+    co = frame.f_code
+    f_name = co.co_name
+    
     if event == "return":
-        arbol.insertarValor(arg,contador.valor())
-        contador.restar()
-
+        if f_name != "_ag" and f_name != "encode":
+            arbol.insertarValor(arg,contador.valor())
+            contador.restar()
+                
     if event == "call":
-        co = frame.f_code
-        f_name = co.co_name
-        if f_name != "_ag":
+        if f_name != "_ag" and f_name != "encode":
+            # Guarda un diccionario con los parametros de entrada de la funcion llamada, si no hay params el diccionario esta vacio
+            paramsEntrada = frame.f_locals
             contador.sumar()
+            
             if contador.valor() == 1:
                 arbol.setNombre(f_name)
+                arbol.setParamsEntrada(paramsEntrada)
+                
             else:
                 hijo = Nodo.Nodo()
                 hijo.setNombre(f_name)
+                hijo.setParamsEntrada(paramsEntrada)
                 arbol.insertar(hijo, contador.valor())
 
     return trace_calls
@@ -63,6 +77,7 @@ def trace_calls(frame, event, arg):
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 d() #Ejecuto el programa de prueba
+#j("ey")
 sys.settrace(tr) #Cargo la traza original guardada
 arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 recorrido = Recorridos.Recorrido(arbol)
