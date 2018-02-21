@@ -1,0 +1,27 @@
+- Cuando marquen un no o un sí, buscar en el arbol todos los nodos con la misma
+  función, parámetros y salida para marcarlas como no o sí. Hacer esto en lugar
+  de la clase Error.
+
+- Aplicar el concepto de arriba a heavies first, para recalcular el peso del nodo.
+
+- Si se encuentra el error, no se sigue buscando por más.
+
+- Divide & query
+
+- Navegación libre -> ID para los nodos
+
+- Don't know no avanza hacia abajo, no profundiza
+
+- Inadmisible es como un yes, comprobar argumentos y buscar la función que ha
+  calculado ese argumento.
+
+- Función que recibe una expresión que el usuario ha descrito como buggy. Es decir,
+  un "startDebug(d())" donde d() será la expresión que se quiere debuggear. Con
+  exec o eval.
+
+- Explicación depuración declarativa para la memoria. Citar referencias.
+
+- Compresión: si un nodo se llama a el mismo, se puede "eliminar" el hijo, pero no
+  lo que cuelga de él. Ésto se hace después de construír el árbol. Preguntarle al
+  usuario si quiere utilizar compresión o no. En la interfaz gráfica mostrarlo
+  comprimido y descomprimido.
