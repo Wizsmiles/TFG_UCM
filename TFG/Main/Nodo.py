@@ -86,3 +86,26 @@ class Nodo():
                 i.preorden()
         print("Valor retornado por '"+self.getNombre()+"' es:", self.getValor())
         time.sleep(1)
+      
+    # REVISA ESTA FUNCION SERGIO  
+    def recorrerNodos(self, nodoBusqueda):
+        
+        if nodoBusqueda.estado == Estado.CONFIAR and nodoBusqueda.getNombre() == self.getNombre():
+            self.estado = Estado.CONFIAR
+            
+        if len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada) and nodoBusqueda.getValor() == self.getValor():
+            if len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada):
+                ok = True
+                for clave in nodoBusqueda.paramsEntrada:
+                    if self.paramsEntrada.has_key(clave):
+                        if self.paramsEntrada.get(clave) != nodoBusqueda.get(clave):
+                            ok = False
+                    else:
+                        ok = False
+                
+                if ok:
+                    self.estado = Estado.VALIDO
+        
+        if len(self.hijos) != 0:
+            for i in self.hijos:
+                i.recorrerNodos(nodoBusqueda)
