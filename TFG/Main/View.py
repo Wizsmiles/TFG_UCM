@@ -12,16 +12,8 @@ class TreeView():
 
     @staticmethod
     def recursiveShow(nodo, nivel, first):
-        # En caso de que sea el primer nivel, no se tabula
-        if nivel != 0:
+        for i in range(0,nivel):
             print('\t', end='', flush=True)
-        # Si es el primer hijo del nodo padre, se tabula tantas veces como
-        # profundo sea
-        if first == False:
-            i = 0;
-            while i < nivel-1:
-                print('\t', end='', flush=True)
-                i = i + 1
 
         # Cambiamos el color de la consola con respecto al Estado del nodo
         if nodo.estado == Nodo.Estado.ERROR:
@@ -32,7 +24,9 @@ class TreeView():
             print(Style.RESET_ALL, end='', flush=True)
 
 
-        print(nodo.valor, end='', flush=True)
+        print(nodo.getNombre(), end='', flush=True)
+        print('(', list(nodo.getParamsEntrada().values()), ')', end='', flush=True)
+        print(' -->', nodo.getValor(), flush=True)
 
         nivel = nivel + 1
 

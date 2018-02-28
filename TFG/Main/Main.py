@@ -25,8 +25,9 @@ arbol = Nodo.Nodo()
 
 contador = MiContador()
 
-def h():
-    return "Hola"
+def h(hello, hola):
+    f()
+    return hello
 def f():
     "hola"
 def a():
@@ -37,7 +38,7 @@ def b():
 def c():
     return b() + b() + a() + 3
 def d():
-    h()
+    h("hello", "hola")
     return c() + 5
 
 
@@ -50,22 +51,22 @@ def trace_calls(frame, event, arg):
 
     co = frame.f_code
     f_name = co.co_name
-    
+
     if event == "return":
         if f_name != "_ag" and f_name != "encode":
             arbol.insertarValor(arg,contador.valor())
             contador.restar()
-                
+
     if event == "call":
         if f_name != "_ag" and f_name != "encode":
             # Guarda un diccionario con los parametros de entrada de la funcion llamada, si no hay params el diccionario esta vacio
             paramsEntrada = frame.f_locals
             contador.sumar()
-            
+
             if contador.valor() == 1:
                 arbol.setNombre(f_name)
                 arbol.setParamsEntrada(paramsEntrada)
-                
+
             else:
                 hijo = Nodo.Nodo()
                 hijo.setNombre(f_name)
@@ -80,7 +81,11 @@ d() #Ejecuto el programa de prueba
 #j("ey")
 sys.settrace(tr) #Cargo la traza original guardada
 arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
+
+View.TreeView.show(arbol)
+
 recorrido = Recorridos.Recorrido(arbol)
 recorrido.inicializarHF()
 # arbol.preorden() #Compruebo que los datos almacenados estan bien
+
 View.TreeView.show(arbol)
