@@ -12,14 +12,21 @@ class Recorrido():
         self.estrategia = Estrategia.HEAVIESTFIRST
         self.arbol.estado = Nodo.Estado.ERROR
         self.errores = []
+        self.buggy = False
 
     def inicializarTD(self):
         self.topDown(self.arbol)
 
     def topDown(self, nodo):
         if len(nodo.hijos) != 0:
+            validos = 0
             for i in nodo.hijos:
-                self.ask(i)
+                if i.estado == Nodo.Estado.INDEFINIDO:
+                    self.ask(i)
+                    if(i.estado == Nodo.Estado.ERROR):
+                        break
+        else:
+            self.buggy = True
 
     def inicializarHF(self):
         self.heaviestFirst(self.arbol)
@@ -27,10 +34,15 @@ class Recorrido():
     def heaviestFirst(self, nodo):
         if len(nodo.hijos) != 0:
             descendientes = []
+            validos = 0
             for i in nodo.hijos:
                 if i.estado == Nodo.Estado.INDEFINIDO:
                     descendientes.append(i.nNodos)
-            if len(descendientes)!=0:
+                elif i.estado == Nodo.Estado.VALIDO:
+                    validos = validos+1
+            if len(nodo.hijos) == validos:
+                self.buggy = True
+            elif len(descendientes)!=0:
                 found = False
                 j=0
                 while(found==False):
@@ -38,9 +50,11 @@ class Recorrido():
                         print(descendientes)
                         found = True
                         self.ask(nodo.hijos[j])
+                        if(nodo.hijos[j].estado == Nodo.Estado.VALIDO):
+                            self.heaviestFirst(nodo)
                     j=j+1;
-                self.heaviestFirst(nodo)
-
+        else:
+            self.buggy = True;
 
     def ask(self, nodo):
             print("Soy la funcion:", nodo.getNombre())
@@ -68,6 +82,9 @@ class Recorrido():
                     self.topDown(nodo)
                 if(self.estrategia == Estrategia.HEAVIESTFIRST):
                     self.heaviestFirst(nodo)
+            if(self.buggy):
+                print("Buggy en la función:", nodo.getNombre())
+                print("Valor retornado es:", nodo.getValor())
 
 
 ##clase error deberia ser un diccionario para buscar la key y añadir el error o generar un error nuevo
