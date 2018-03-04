@@ -21,7 +21,10 @@ class Recorrido():
         if len(nodo.hijos) != 0:
             validos = 0
             for i in nodo.hijos:
-                if i.estado == Nodo.Estado.INDEFINIDO:
+                if i.estado == Nodo.Estado.ERROR:
+                    self.topDown(i)
+                    break
+                elif i.estado == Nodo.Estado.INDEFINIDO:
                     self.ask(i)
                     if(i.estado == Nodo.Estado.ERROR):
                         break
@@ -38,7 +41,7 @@ class Recorrido():
             for i in nodo.hijos:
                 if i.estado == Nodo.Estado.INDEFINIDO:
                     descendientes.append(i.nNodos)
-                elif i.estado == Nodo.Estado.VALIDO:
+                elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR:
                     validos = validos+1
             if len(nodo.hijos) == validos:
                 self.buggy = True
@@ -47,10 +50,9 @@ class Recorrido():
                 j=0
                 while(found==False):
                     if nodo.hijos[j].nNodos == max(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
-                        print(descendientes)
                         found = True
                         self.ask(nodo.hijos[j])
-                        if(nodo.hijos[j].estado == Nodo.Estado.VALIDO):
+                        if(nodo.hijos[j].estado == Nodo.Estado.VALIDO or nodo.hijos[j].estado == Nodo.Estado.CONFIAR):
                             self.heaviestFirst(nodo)
                     j=j+1;
         else:
@@ -63,21 +65,23 @@ class Recorrido():
             print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
             print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor())
             nb=""
-            while(nb!="y" and nb!="n"):
-                nb = input("It's correct?(y/n)")
+            while(nb!="y" and nb!="n" and nb!="t"):
+                nb = input("It's correct?(y/n/t) t for trust")
                 print(nb)
 
             if(nb == "y"):
                 nodo.estado = Nodo.Estado.VALIDO
+                self.arbol.recorrerNodos(nodo);
+            elif(nb == "t"):
+                nodo.estado = Nodo.Estado.CONFIAR
+                self.arbol.recorrerNodos(nodo);
             else:
                 nodo.estado = Nodo.Estado.ERROR
                 ##Aqui debería ir un switch con el tipo de estrategia a seguir
                 #Decidir si el id debe ir dentro del else o ejecutarse siempre
 
-                error = Error(nodo.getNombre())
-                #valor ahora es solo el return pero deberia contemplar excepciones y efectos laterales(parametros de entrada, etc)
-                error.addValor(nodo.getValor())
-                self.errores.append(error)
+                self.arbol.recorrerNodos(nodo);
+
                 if(self.estrategia == Estrategia.TOPDOWN):
                     self.topDown(nodo)
                 if(self.estrategia == Estrategia.HEAVIESTFIRST):

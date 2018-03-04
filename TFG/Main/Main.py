@@ -85,7 +85,7 @@ arbol.calcularPeso() # Tras retornar la traza original del programa calculo el n
 View.TreeView.show(arbol)
 
 recorrido = Recorridos.Recorrido(arbol)
-recorrido.inicializarTD()
+recorrido.inicializarHF()
 # arbol.preorden() #Compruebo que los datos almacenados estan bien
 
 View.TreeView.show(arbol)

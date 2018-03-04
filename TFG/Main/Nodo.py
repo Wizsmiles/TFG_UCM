@@ -9,7 +9,7 @@ class Estado(Enum):
     VALIDO = 2
     ERROR = 3
     CONFIAR = 4
-    
+
 class Nodo():
     #Constructor
     def __init__(self):
@@ -19,14 +19,14 @@ class Nodo():
         self.nNodos = 1
         self.estado = Estado.INDEFINIDO
         self.paramsEntrada = None
-        
+
     #Gestion de los parametros de entradas de cada funcion
     def setParamsEntrada(self, params):
         self.paramsEntrada = deepcopy(params)
-        
+
     def getParamsEntrada(self):
         return self.paramsEntrada
-    
+
     #Gestion del valor del nodo
     def setValor(self, valor):
         self.valor = deepcopy(valor)
@@ -86,26 +86,26 @@ class Nodo():
                 i.preorden()
         print("Valor retornado por '"+self.getNombre()+"' es:", self.getValor())
         time.sleep(1)
-      
-    # REVISA ESTA FUNCION SERGIO  
+
+    # REVISA ESTA FUNCION SERGIO
     def recorrerNodos(self, nodoBusqueda):
-        
+
         if nodoBusqueda.estado == Estado.CONFIAR and nodoBusqueda.getNombre() == self.getNombre():
             self.estado = Estado.CONFIAR
-            
-        if len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada) and nodoBusqueda.getValor() == self.getValor():
-            if len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada):
-                ok = True
+
+        elif len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada) and nodoBusqueda.getValor() == self.getValor() and nodoBusqueda.getNombre() == self.getNombre():
+            ok = True
+            if len(nodoBusqueda.paramsEntrada) > 0 :
                 for clave in nodoBusqueda.paramsEntrada:
                     if self.paramsEntrada.has_key(clave):
                         if self.paramsEntrada.get(clave) != nodoBusqueda.get(clave):
                             ok = False
                     else:
                         ok = False
-                
-                if ok:
-                    self.estado = Estado.VALIDO
-        
+
+            if ok:
+                self.estado = nodoBusqueda.estado
+
         if len(self.hijos) != 0:
             for i in self.hijos:
                 i.recorrerNodos(nodoBusqueda)
