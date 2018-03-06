@@ -90,6 +90,8 @@ class Nodo():
     # REVISA ESTA FUNCION SERGIO
     def recorrerNodos(self, nodoBusqueda):
 
+        ret = 0
+        
         if nodoBusqueda.estado == Estado.CONFIAR and nodoBusqueda.getNombre() == self.getNombre():
             self.estado = Estado.CONFIAR
 
@@ -105,7 +107,15 @@ class Nodo():
 
             if ok:
                 self.estado = nodoBusqueda.estado
+                
+        if self.estado == Estado.ERROR or self.estado == Estado.INDEFINIDO:
+            ret = 1
 
         if len(self.hijos) != 0:
             for i in self.hijos:
-                i.recorrerNodos(nodoBusqueda)
+                ret += i.recorrerNodos(nodoBusqueda)
+        
+        self.nNodos = ret
+        
+        return ret        
+            
