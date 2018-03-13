@@ -8,6 +8,7 @@ import time
 import Recorridos
 import Nodo
 import View
+import Ejemplos
 
 class MiContador():
     count = 0
@@ -77,8 +78,9 @@ def trace_calls(frame, event, arg):
 
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
-d() #Ejecuto el programa de prueba
-#j("ey")
+
+Ejemplos.ejemplo1()
+
 sys.settrace(tr) #Cargo la traza original guardada
 arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
