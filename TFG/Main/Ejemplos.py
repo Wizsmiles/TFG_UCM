@@ -49,3 +49,20 @@ def ejemplo2():
     ejemplo2_1(lista)
     ejemplo2_2(lista, "3")
     ejemplo2_3(lista)
+    
+# Codigo ejemplo 3 - Fusion nodos iguales
+
+def ejemplo3_1():
+    return "No igual"
+
+def ejemplo3_2(msj):
+    if msj == "hijo2":
+        ejemplo3_2("hijo3")
+    elif msj != "hijo3":
+        ejemplo3_2("hijo2")
+    else:
+        return "fin"
+    
+def ejemplo3():
+    ejemplo3_1()
+    ejemplo3_2("hijo1")

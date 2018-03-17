@@ -87,7 +87,7 @@ class Nodo():
         print("Valor retornado por '"+self.getNombre()+"' es:", self.getValor())
         time.sleep(1)
 
-    # REVISA ESTA FUNCION SERGIO
+    # Cada vez que el user marca como VALIDO/CONFIAR un nodo, se recorre todo el arbol buscando otros iguales para marcarlos tambien
     def recorrerNodos(self, nodoBusqueda):
 
         ret = 0
@@ -118,4 +118,25 @@ class Nodo():
         self.nNodos = ret
         
         return ret        
-            
+    
+    # PENDIENTE DE REVISION POR SERGIO
+    # Una vez creado el arbol, se recorre buscando nodos con hijos recursivos para fusionarlos y reducir el tamanyo final
+    def fusionNodos(self):
+        if len(self.hijos) != 0:
+            for i in self.hijos:
+                if i.getNombre() == self.getNombre():
+                    self.cambiarNodo(i)
+                    self.fusionNodos()
+                else:
+                    i.fusionNodos()
+        
+    #FUNCIONA GUAY            
+    # Cambia el valor de un nodo por otro     
+    def cambiarNodo(self, nodo):
+        self.nFuncion = nodo.nFuncion
+        self.valor = nodo.valor
+        self.nNodos = nodo.nNodos
+        self.estado = nodo.estado
+        self.paramsEntrada = nodo.paramsEntrada
+        self.hijos = nodo.hijos
+        

@@ -79,10 +79,13 @@ def trace_calls(frame, event, arg):
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 
-Ejemplos.ejemplo1()
+Ejemplos.ejemplo3()
 
 sys.settrace(tr) #Cargo la traza original guardada
+
+arbol.fusionNodos()
 arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
+
 
 View.TreeView.show(arbol)
 
