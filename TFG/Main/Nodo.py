@@ -91,7 +91,7 @@ class Nodo():
     def recorrerNodos(self, nodoBusqueda):
 
         ret = 0
-        
+
         if nodoBusqueda.estado == Estado.CONFIAR and nodoBusqueda.getNombre() == self.getNombre():
             self.estado = Estado.CONFIAR
 
@@ -99,26 +99,28 @@ class Nodo():
             ok = True
             if len(nodoBusqueda.paramsEntrada) > 0 :
                 for clave in nodoBusqueda.paramsEntrada:
-                    if self.paramsEntrada.has_key(clave):
-                        if self.paramsEntrada.get(clave) != nodoBusqueda.get(clave):
+                    print(self.paramsEntrada)
+                    print(self.paramsEntrada.get(clave))
+                    if clave in self.paramsEntrada :
+                        if self.paramsEntrada.get(clave) != nodoBusqueda.paramsEntrada.get(clave):
                             ok = False
                     else:
                         ok = False
 
             if ok:
                 self.estado = nodoBusqueda.estado
-                
+
         if self.estado == Estado.ERROR or self.estado == Estado.INDEFINIDO:
             ret = 1
 
         if len(self.hijos) != 0:
             for i in self.hijos:
                 ret += i.recorrerNodos(nodoBusqueda)
-        
+
         self.nNodos = ret
-        
-        return ret        
-    
+
+        return ret
+
     # PENDIENTE DE REVISION POR SERGIO
     # Una vez creado el arbol, se recorre buscando nodos con hijos recursivos para fusionarlos y reducir el tamanyo final
     def fusionNodos(self):
@@ -129,9 +131,9 @@ class Nodo():
                     self.fusionNodos()
                 else:
                     i.fusionNodos()
-        
-    #FUNCIONA GUAY            
-    # Cambia el valor de un nodo por otro     
+
+    #FUNCIONA GUAY
+    # Cambia el valor de un nodo por otro
     def cambiarNodo(self, nodo):
         self.nFuncion = nodo.nFuncion
         self.valor = nodo.valor
@@ -139,4 +141,3 @@ class Nodo():
         self.estado = nodo.estado
         self.paramsEntrada = nodo.paramsEntrada
         self.hijos = nodo.hijos
-        

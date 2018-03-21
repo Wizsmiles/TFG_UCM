@@ -1,0 +1,12 @@
+- Dont know
+
+- Inadmisible
+
+- Efectos laterales: mostrarlos en la pregunta y en la memorización y
+  comprobaciones
+
+- Método lanzador
+
+- Excepciones
+
+- Revisar bibliotecas GUI de python, árbol interactuable

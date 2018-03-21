@@ -82,7 +82,7 @@ class Recorrido():
                 found = False
                 j = 0
 
-                while (found == False):
+                while (not found):
                     n = abs(nodo.nNodos/2 - nodo.hijos[j].nNodos)
 
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
