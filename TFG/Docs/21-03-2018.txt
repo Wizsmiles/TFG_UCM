@@ -10,3 +10,5 @@
 - Excepciones
 
 - Revisar bibliotecas GUI de python, árbol interactuable
+
+- Fusión de estrategias: subarbol con raiz roja más pequeño y continuar
