@@ -4,17 +4,27 @@ import sys
 import time
 
 
+contador = 1
+
 class Estado(Enum):
     INDEFINIDO = 1
     VALIDO = 2
     ERROR = 3
     CONFIAR = 4
+    INACEPTABLE = 5
+    DESCONOCIDO = 6
 
 class Nodo():
     #Constructor
+
     def __init__(self):
+        global contador
+            
+        self.id = contador
+        contador += 1
         self.nFuncion = None
         self.valor = None
+        self.padre = None
         self.hijos = []
         self.nNodos = 1
         self.estado = Estado.INDEFINIDO
@@ -53,6 +63,7 @@ class Nodo():
 
     #Gestion de los hijos del nodo
     def setHijo(self, nodo):
+        nodo.padre = self
         self.hijos.append(nodo)
 
     def insertar(self, nodo, nivel):
@@ -132,12 +143,12 @@ class Nodo():
                 else:
                     i.fusionNodos()
 
-    #FUNCIONA GUAY
     # Cambia el valor de un nodo por otro
     def cambiarNodo(self, nodo):
-        self.nFuncion = nodo.nFuncion
-        self.valor = nodo.valor
-        self.nNodos = nodo.nNodos
-        self.estado = nodo.estado
-        self.paramsEntrada = nodo.paramsEntrada
-        self.hijos = nodo.hijos
+        self.padre = nodo.padre
+        self.nFuncion = deepcopy(nodo.nFuncion)
+        self.valor = deepcopy(nodo.valor)
+        self.nNodos = deepcopy(nodo.nNodos)
+        self.estado = deepcopy(nodo.estado)
+        self.paramsEntrada = deepcopy(nodo.paramsEntrada)
+        self.hijos = deepcopy(nodo.hijos)

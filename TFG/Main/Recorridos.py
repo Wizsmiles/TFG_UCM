@@ -10,7 +10,7 @@ class Estrategia(Enum):
 class Recorrido():
     def __init__(self, tree):
         self.arbol = tree
-        self.estrategia = Estrategia.HEAVIESTFIRST
+        self.estrategia = Estrategia.TOPDOWN
         self.arbol.estado = Nodo.Estado.ERROR
         self.errores = []
         self.buggy = False
@@ -100,7 +100,7 @@ class Recorrido():
 
     def ask(self, nodo):
             print("Soy la funcion:", nodo.getNombre())
-            #print("Mi Id es:", self.id)
+            print("Mi Id es:", nodo.id)
             print("Num hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
             print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
             print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor())

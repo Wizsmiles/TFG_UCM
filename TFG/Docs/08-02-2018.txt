@@ -1,7 +1,7 @@
 --- Estrategias de navegación ---
   . Top Down          V
   . Heaviest First    V
-  . Divide & query
+  . Divide & query    V
   . Divide & heaviest
 
 - Función dameSiguiente para ir preguntando al usuario.
