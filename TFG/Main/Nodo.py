@@ -15,8 +15,8 @@ class Estado(Enum):
     DESCONOCIDO = 6
 
 class Nodo():
+    
     #Constructor
-
     def __init__(self):
         global contador
             
@@ -127,14 +127,22 @@ class Nodo():
             ok = True
             if len(nodoBusqueda.paramsEntrada) > 0 :
                 for clave in nodoBusqueda.paramsEntrada:
-                    print(self.paramsEntrada)
-                    print(self.paramsEntrada.get(clave))
+                    self.comprobarParams(ok, clave, self.paramsEntrada, nodoBusqueda.paramsEntrada)
+                    if ok:
+                        self.comprobarParams(ok, clave, self.paramsModificados, nodoBusqueda.paramsModificados)
+                    '''
                     if clave in self.paramsEntrada :
                         if self.paramsEntrada.get(clave) != nodoBusqueda.paramsEntrada.get(clave):
                             ok = False
                     else:
                         ok = False
-
+                        
+                    if clave in self.paramsModificados:
+                        if self.paramsModificados.get(clave) != nodoBusqueda.paramsModificados.get(clave):
+                            ok = False
+                    else:
+                        ok = False
+                    '''
             if ok:
                 self.estado = nodoBusqueda.estado
 
@@ -148,6 +156,15 @@ class Nodo():
         self.nNodos = ret
 
         return ret
+
+    # Comprueba si el diccionario 1 es igual al diccionario 2 a partir de una clave
+    def comprobarParams(self, ok, clave, dict1, dict2):
+        if clave in dict1 :
+            if dict1.get(clave) != dict2.paramsEntrada.get(clave):
+                ok = False
+        else:
+            ok = False
+        
 
     # PENDIENTE DE REVISION POR SERGIO
     # Una vez creado el arbol, se recorre buscando nodos con hijos recursivos para fusionarlos y reducir el tamanyo final
