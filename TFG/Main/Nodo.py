@@ -160,7 +160,7 @@ class Nodo():
     # Comprueba si el diccionario 1 es igual al diccionario 2 a partir de una clave
     def comprobarParams(self, ok, clave, dict1, dict2):
         if clave in dict1 :
-            if dict1.get(clave) != dict2.paramsEntrada.get(clave):
+            if dict1.get(clave) != dict2.get(clave):
                 ok = False
         else:
             ok = False
