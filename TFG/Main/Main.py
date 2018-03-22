@@ -56,6 +56,7 @@ def trace_calls(frame, event, arg):
     if event == "return":
         if f_name != "_ag" and f_name != "encode":
             arbol.insertarValor(arg,contador.valor())
+            arbol.insertarParamsMods(frame.f_locals,contador.valor())
             contador.restar()
 
     if event == "call":

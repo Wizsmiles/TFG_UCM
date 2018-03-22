@@ -29,6 +29,7 @@ class Nodo():
         self.nNodos = 1
         self.estado = Estado.INDEFINIDO
         self.paramsEntrada = None
+        self.paramsModificados = None
 
     #Gestion de los parametros de entradas de cada funcion
     def setParamsEntrada(self, params):
@@ -36,6 +37,12 @@ class Nodo():
 
     def getParamsEntrada(self):
         return self.paramsEntrada
+    
+    def setParamsMods(self, params):
+        self.paramsModificados = deepcopy(params)
+        
+    def getParamsMods(self):
+        return self.paramsModificados
 
     #Gestion del valor del nodo
     def setValor(self, valor):
@@ -53,7 +60,17 @@ class Nodo():
         else:
             aux = self.hijos[len(self.hijos)-1]
             aux.insertarValores(valor, nivel, nActual + 1)
-
+            
+    def insertarParamsMods(self, params, nivel):
+        self.insertarParamsModificados(params, nivel, 1)
+        
+    def insertarParamsModificados(self, params, nivel, nActual):   
+        if nActual == nivel:
+            self.setParamsMods(params)
+        else:
+            aux = self.hijos[len(self.hijos)-1]
+            aux.insertarParamsModificados(params, nivel, nActual + 1)
+            
     #Gestion del nombre de la funcion del nodo
     def setNombre(self, nombre):
         self.nFuncion = nombre
@@ -151,4 +168,5 @@ class Nodo():
         self.nNodos = deepcopy(nodo.nNodos)
         self.estado = deepcopy(nodo.estado)
         self.paramsEntrada = deepcopy(nodo.paramsEntrada)
+        self.paramsModificados = deepcopy(nodo.paramsModificados)
         self.hijos = deepcopy(nodo.hijos)
