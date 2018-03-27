@@ -28,8 +28,8 @@ class Nodo():
         self.hijos = []
         self.nNodos = 1
         self.estado = Estado.INDEFINIDO
-        self.paramsEntrada = None
-        self.paramsModificados = None
+        self.paramsEntrada = []
+        self.paramsModificados = []
 
     #Gestion de los parametros de entradas de cada funcion
     def setParamsEntrada(self, params):
@@ -125,6 +125,7 @@ class Nodo():
 
         elif len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada) and nodoBusqueda.getValor() == self.getValor() and nodoBusqueda.getNombre() == self.getNombre():
             ok = True
+            
             if len(nodoBusqueda.paramsEntrada) > 0 :
                 for clave in nodoBusqueda.paramsEntrada:
                     self.comprobarParams(ok, clave, self.paramsEntrada, nodoBusqueda.paramsEntrada)

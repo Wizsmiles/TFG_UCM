@@ -66,3 +66,16 @@ def ejemplo3_2(msj):
 def ejemplo3():
     ejemplo3_1()
     ejemplo3_2("hijo1")
+    
+# Codigo ejemplo 4 - Excepciones
+
+def excepcion():
+    try:
+        x = 1/0
+    except:
+        return "Hubo un fallo"
+    return "hola"
+        
+def ejemplo4():
+    f()
+    excepcion()

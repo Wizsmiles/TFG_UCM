@@ -48,41 +48,58 @@ def j(holita):
     h()
 
 
+wait = False
 def trace_calls(frame, event, arg):
-
+    global wait
     co = frame.f_code
     f_name = co.co_name
+    
+    if not wait: #Cuando se devuelve una excepcion, la funcion retorna mas de una cosa y desborda el arbol, esto lo controla
+        if event == "return" or event == "exception":
 
-    if event == "return":
-        if f_name != "_ag" and f_name != "encode":
-            arbol.insertarValor(arg,contador.valor())
-            arbol.insertarParamsMods(frame.f_locals,contador.valor())
-            contador.restar()
+            if f_name != "_ag" and f_name != "encode":
+                
+                if event == "exception":
+                    arg = arg[1]
+                    wait = True
+                 
+                paramsMods = frame.f_locals
+                arbol.insertarValor(arg,contador.valor())
+                arbol.insertarParamsMods(paramsMods, contador.valor())
+                contador.restar()
+    
+        if event == "call":
+            
+            if f_name != "_ag" and f_name != "encode":
+                
+                paramsEntrada = frame.f_locals
+                contador.sumar()
+    
+                if contador.valor() == 1:
+                    
+                    arbol.setNombre(f_name)
+                    arbol.setParamsEntrada(paramsEntrada)
+    
+                else:
+                    
+                    hijo = Nodo.Nodo()
+                    hijo.setNombre(f_name)
+                    hijo.setParamsEntrada(paramsEntrada)
+                    arbol.insertar(hijo, contador.valor())
 
-    if event == "call":
-        if f_name != "_ag" and f_name != "encode":
-            # Guarda un diccionario con los parametros de entrada de la funcion llamada, si no hay params el diccionario esta vacio
-            paramsEntrada = frame.f_locals
-            contador.sumar()
-
-            if contador.valor() == 1:
-                arbol.setNombre(f_name)
-                arbol.setParamsEntrada(paramsEntrada)
-
-            else:
-                hijo = Nodo.Nodo()
-                hijo.setNombre(f_name)
-                hijo.setParamsEntrada(paramsEntrada)
-                arbol.insertar(hijo, contador.valor())
-
+    else:
+        wait = True
+        
     return trace_calls
+    
 
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 
-Ejemplos.ejemplo1()
+Ejemplos.ejemplo3()
 
 sys.settrace(tr) #Cargo la traza original guardada
+
 
 arbol.fusionNodos()
 arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo

@@ -25,8 +25,8 @@ class TreeView():
 
 
         print(nodo.getNombre(), end='', flush=True)
-        print(' Entrada: (', list(nodo.getParamsEntrada().values()), ')', end='', flush=True)
-        print(' Salida: (', list(nodo.getParamsMods().values()), ')', end='', flush=True)
+        print(' Entrada: (', nodo.getParamsEntrada(), ')', end='', flush=True)
+        print(' Salida: (', nodo.getParamsMods(), ')', end='', flush=True)
         print(' -->', nodo.getValor(), flush=True)
 
         nivel = nivel + 1
