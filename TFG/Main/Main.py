@@ -10,47 +10,13 @@ import Nodo
 import View
 import Ejemplos
 
-class MiContador():
-    count = 0
-
-    def sumar(self):
-        self.count += 1
-        #print("Valor contador:", self.count)
-    def restar(self):
-        self.count -= 1
-        #print("Valor contador:", self.count)
-    def valor(self):
-        return self.count
-
 arbol = Nodo.Nodo()
-
-contador = MiContador()
-
-def h(hello, hola):
-    f()
-    return hello
-def f():
-    "hola"
-def a():
-    f()
-    return 6
-def b():
-    return 2 + a()
-def c():
-    return b() + b() + a() + 3
-def d():
-    h("hello", "hola")
-    return c() + 5
-
-
-#Prueba parametros de entrada a una funcion
-def j(holita):
-    h()
-
-
+cont = 0
 wait = False
+
 def trace_calls(frame, event, arg):
-    global wait
+    global wait, cont
+    
     co = frame.f_code
     f_name = co.co_name
     
@@ -63,29 +29,29 @@ def trace_calls(frame, event, arg):
                     arg = arg[1]
                     wait = True
                  
-                paramsMods = frame.f_locals
-                arbol.insertarValor(arg,contador.valor())
-                arbol.insertarParamsMods(paramsMods, contador.valor())
-                contador.restar()
+                params = frame.f_locals
+                arbol.insertarValor(arg, cont)
+                arbol.insertarParamsMods(params, cont)
+                cont -= 1
     
         if event == "call":
             
             if f_name != "_ag" and f_name != "encode":
                 
-                paramsEntrada = frame.f_locals
-                contador.sumar()
+                params = frame.f_locals
+                cont += 1
     
-                if contador.valor() == 1:
+                if cont == 1:
                     
                     arbol.setNombre(f_name)
-                    arbol.setParamsEntrada(paramsEntrada)
+                    arbol.setParamsEntrada(params)
     
                 else:
                     
                     hijo = Nodo.Nodo()
                     hijo.setNombre(f_name)
-                    hijo.setParamsEntrada(paramsEntrada)
-                    arbol.insertar(hijo, contador.valor())
+                    hijo.setParamsEntrada(params)
+                    arbol.insertar(hijo, cont)
 
     else:
         wait = True
@@ -96,7 +62,7 @@ def trace_calls(frame, event, arg):
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 
-Ejemplos.ejemplo3()
+Ejemplos.ejemplo4()
 
 sys.settrace(tr) #Cargo la traza original guardada
 
