@@ -12,15 +12,18 @@ import Ejemplos
 
 arbol = Nodo.Nodo()
 cont = 0
+contWait = 0
 wait = False
 
 def trace_calls(frame, event, arg):
-    global wait, cont
+    global wait, cont, contWait
     
     co = frame.f_code
     f_name = co.co_name
     
-    if not wait: #Cuando se devuelve una excepcion, la funcion retorna mas de una cosa y desborda el arbol, esto lo controla
+    # Cuando se produce una expcion, se producen tres return basura capturados 
+    # por la traza, esto hace que el flujo no se vea afectado
+    if not wait: 
         if event == "return" or event == "exception":
 
             if f_name != "_ag" and f_name != "encode":
@@ -53,8 +56,13 @@ def trace_calls(frame, event, arg):
                     hijo.setParamsEntrada(params)
                     arbol.insertar(hijo, cont)
 
+    # Controla los return basura tras un except. Esta basura provoca fallos en el arbol 
     else:
-        wait = True
+        if contWait < 3:
+            contWait += 1
+        else:
+            wait = False
+            contWait = 0
         
     return trace_calls
     
@@ -62,7 +70,7 @@ def trace_calls(frame, event, arg):
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 
-Ejemplos.ejemplo4()
+Ejemplos.ejemplo3()
 
 sys.settrace(tr) #Cargo la traza original guardada
 

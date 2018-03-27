@@ -69,13 +69,22 @@ def ejemplo3():
     
 # Codigo ejemplo 4 - Excepciones
 
-def excepcion():
+def excepcion1():
     try:
         x = 1/0
     except:
         return "Hubo un fallo"
     return "hola"
         
+def excepcion2():
+    lista = []
+    try:
+        lista.pop()
+    except:
+        return "Hubo otro fallo"
+
 def ejemplo4():
-    f()
-    excepcion()
+    excepcion1()
+    excepcion2()
+    excepcion1()
+    excepcion2()
