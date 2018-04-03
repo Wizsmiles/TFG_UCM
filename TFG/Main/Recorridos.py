@@ -36,7 +36,7 @@ class Recorrido():
                     self.ask(i)
                     if(i.estado == Nodo.Estado.ERROR):
                         break
-            if len(nodo.hijos) == validos
+            if len(nodo.hijos) == validos:
                 self.buggy = True
 
         else:
@@ -129,7 +129,7 @@ class Recorrido():
             while(nb!="y" and nb!="n" and nb!="t"  and nb!="i"  and nb!="d"):
                 nb = input("It's correct?(y/n) (press t/i/d --- t for trust/i for unnacceptable/d for don't know): \n (You can swap your strategy pressing e)")
                 print(nb)
-                if(nb == "e")
+                if(nb == "e"):
                     while(nb!="td" and nb!="hf" and nb!="dq"):
                         nb = input("Select your strategy td(TOPDOWN)/hf(HEAVIESTFIRST)/dq(DIVIDEANDQUERY)")
                         print(nb)

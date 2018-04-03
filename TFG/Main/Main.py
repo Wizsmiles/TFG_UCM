@@ -9,6 +9,7 @@ import Recorridos
 import Nodo
 import View
 import Ejemplos
+import getopt
 
 arbol = Nodo.Nodo()
 cont = 0
@@ -17,60 +18,87 @@ wait = False
 
 def trace_calls(frame, event, arg):
     global wait, cont, contWait
-    
+
     co = frame.f_code
     f_name = co.co_name
-    
-    # Cuando se produce una expcion, se producen tres return basura capturados 
+
+    # Cuando se produce una expcion, se producen tres return basura capturados
     # por la traza, esto hace que el flujo no se vea afectado
-    if not wait: 
+    if not wait:
         if event == "return" or event == "exception":
 
             if f_name != "_ag" and f_name != "encode":
-                
+
                 if event == "exception":
                     arg = arg[1]
                     wait = True
-                 
+
                 params = frame.f_locals
                 arbol.insertarValor(arg, cont)
                 arbol.insertarParamsMods(params, cont)
                 cont -= 1
-    
+
         if event == "call":
-            
+
             if f_name != "_ag" and f_name != "encode":
-                
+
                 params = frame.f_locals
                 cont += 1
-    
+
                 if cont == 1:
-                    
+
                     arbol.setNombre(f_name)
                     arbol.setParamsEntrada(params)
-    
+
                 else:
-                    
+
                     hijo = Nodo.Nodo()
                     hijo.setNombre(f_name)
                     hijo.setParamsEntrada(params)
                     arbol.insertar(hijo, cont)
 
-    # Controla los return basura tras un except. Esta basura provoca fallos en el arbol 
+    # Controla los return basura tras un except. Esta basura provoca fallos en el arbol
     else:
         if contWait < 3:
             contWait += 1
         else:
             wait = False
             contWait = 0
-        
+
     return trace_calls
-    
+
+
+##### TODO #####
+# debugFile = ''
+# debugMethod = ''
+#
+# # if len(sys.argv) > 0 and len(sys.argv) <= 2:
+# try:
+#     opts, args = getopt.getopt(sys.argv,"hf:m:",["file=","method="])
+# except getopt.GetoptError:
+#     print('Main.py -f <debugfile> -m <debugmethod>')
+#     sys.exit(2)
+# for opt, arg in opts:
+#     if opt == '-h':
+#         print('Main.py -f <debugfile> -m <debugmethod>')
+#         sys.exit()
+#     elif opt in ("-f", "--file"):
+#         debugFile = arg
+#     elif opt in ("-m", "--method"):
+#         debugMethod = arg
+
+print(debugFile + " " + debugMethod)
+
+prueba = "Ejemplos"
+prueba2 = "ejemplo1"
+# exec("import " + prueba)
+exec("from " + prueba + " import " + prueba2 + " as prueba3")
 
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 
-Ejemplos.ejemplo3()
+prueba3()
+
 
 sys.settrace(tr) #Cargo la traza original guardada
 
