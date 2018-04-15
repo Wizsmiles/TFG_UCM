@@ -87,7 +87,6 @@ def trace_calls(frame, event, arg):
 #     elif opt in ("-m", "--method"):
 #         debugMethod = arg
 
-print(debugFile + " " + debugMethod)
 
 prueba = "Ejemplos"
 prueba2 = "ejemplo1"
@@ -97,8 +96,10 @@ exec("from " + prueba + " import " + prueba2 + " as prueba3")
 tr = sys.gettrace()  #Guardo la traza original del programa
 sys.settrace(trace_calls) #Traceo la ejecucion del programa
 
-prueba3()
-
+try:
+    prueba3()
+except:
+    None
 
 sys.settrace(tr) #Cargo la traza original guardada
 
