@@ -1,5 +1,51 @@
-<Contenedor>:
-	Button:
-		text: 'Korvo'
-	Button:
-		text: 'Parguelon'
+<MainFrame>:
+
+	canvas:
+		Color:
+			rgb: 1,1,1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+			
+	BoxLayout:
+		spacing: 30
+		pading: 100
+		size_hint: 0.15,1
+		canvas:
+			Color:
+				rgb: 0,0,1
+			Rectangle:
+				size: self.size
+				pos: self.pos
+
+	BoxLayout:
+		size_hint: 0.85,1
+		ScrollView:
+			GridLayout:
+				id: nodeContainer
+				size_hint_y: None
+				spacing: 10
+				cols: 1
+				row_default_height: root.height*0.45
+				height: self.minimum_height
+	
+	
+<NodeBox>
+	id: nodeBox
+	padding: [nodeBox.V_space,0,0,0]
+	canvas:
+		Color:
+			rgb: 1,1,1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+			
+	BoxLayout:
+		canvas:
+			Color:
+				rgb: 0,1,0
+			Rectangle:
+				size: self.size
+				pos: self.pos
+	
+	
