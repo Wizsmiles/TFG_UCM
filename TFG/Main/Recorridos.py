@@ -15,7 +15,8 @@ class Recorrido():
         self.desconocidos = []
         self.ended = False
         self.buggy = False
-
+        self.buggyDN = False
+        self.nodoBuggy = Nodo.Nodo()
 
         #####################TOPDOWN###################
 
@@ -41,14 +42,30 @@ class Recorrido():
                         break
                     elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                         validos = validos+1
-            if len(nodo.hijos) == validos:
+            
+           #if len(nodo.hijos) == validos:
+            if len(nodo.hijos) == validos and nodo.estado != Nodo.Estado.DESCONOCIDO:
+                self.nodoBuggy = nodo
                 self.buggy = True
+                self.buggyMsj()
+                
+                '''
+            elif len(nodo.hijos) == validos and nodo.estado == Nodo.Estado.DESCONOCIDO:
+                if nodo.padre.nNodos == 0:
+                    self.nodoBuggy = nodo.padre
+                    self.buggy = True
+                    self.buggyMsj()     
+                ''' 
+           
             else:
-                ##Una vez finalizado el primer bucle, si el n√∫mero de validos es inferior al numero de hijos significa que 1 o m√°s son DESCONOCIDO y se proceder√° a recorrerlos con la estrategia establecida
+                ##Una vez finalizado el primer bucle, si el n˙mero de validos es inferior al numero de hijos significa que 1 o m·s son DESCONOCIDO y se proceder· a recorrerlos con la estrategia establecida
                 for i in nodo.hijos:
                     if i.estado == Nodo.Estado.DESCONOCIDO:
-                        self.deconocidos.append(i)
+                        self.desconocidos.append(i)
                         self.topDown(i)
+                    
+                self.buggy = True
+                
         else:
             self.buggy = True
 
@@ -105,7 +122,7 @@ class Recorrido():
                     if nodo.hijos[j].nNodos == max(descendientes) and nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                         found = True
                         self.heaviestFirst(nodo.hijos[j])
-                        if(nodo.hijos[j].buggy = False):
+                        if(nodo.hijos[j].buggy == False):
                             self.heaviestFirst(nodo)
                         else:
                             self.buggy = True
@@ -228,10 +245,15 @@ class Recorrido():
                     self.divideAndQuery(nodo)
 
             if(self.buggy):
-                print("Buggy en la funci√≥n:", nodo.getNombre())
-                print("Valor retornado es:", nodo.getValor())
+                self.nodoBuggy = nodo
+                self.buggyMsj()
 
 
+    def buggyMsj(self):
+        print("Buggy en la funcion:", self.nodoBuggy.getNombre())
+        print("Valor retornado es:", self.nodoBuggy.getValor())
+        sys.exit()
+        
 ##clase error deberia ser un diccionario para buscar la key y a√±adir el error o generar un error nuevo
 
 class Error():

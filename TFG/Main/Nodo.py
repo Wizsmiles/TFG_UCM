@@ -150,7 +150,7 @@ class Nodo():
         if self.estado == Estado.ERROR or self.estado == Estado.INDEFINIDO:
             ret = 1
 
-        if len(self.hijos) != 0:
+        if len(self.hijos) != 0 and self.estado != Estado.VALIDO and self.estado != Estado.CONFIAR and self.estado != Estado.INACEPTABLE:
             for i in self.hijos:
                 ret += i.recorrerNodos(nodoBusqueda)
 
