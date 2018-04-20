@@ -1,6 +1,7 @@
 import Nodo
 from enum import Enum
 import sys
+import View
 
 class Estrategia(Enum):
     TOPDOWN = 1
@@ -28,6 +29,7 @@ class Recorrido():
         if len(nodo.hijos) != 0:
             validos = 0
 
+
             ##Primer blucle recorre todos los nodos hijos para establecer un valor distinto de INDEFINIDO
             for i in nodo.hijos:
                 if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
@@ -42,30 +44,30 @@ class Recorrido():
                         break
                     elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                         validos = validos+1
-            
+
            #if len(nodo.hijos) == validos:
             if len(nodo.hijos) == validos and nodo.estado != Nodo.Estado.DESCONOCIDO:
                 self.nodoBuggy = nodo
                 self.buggy = True
                 self.buggyMsj()
-                
-                '''
+
+
             elif len(nodo.hijos) == validos and nodo.estado == Nodo.Estado.DESCONOCIDO:
                 if nodo.padre.nNodos == 0:
-                    self.nodoBuggy = nodo.padre
+                    self.nodoBuggy = nodo
                     self.buggy = True
-                    self.buggyMsj()     
-                ''' 
-           
+                    self.buggyMsj()
+
+
             else:
-                ##Una vez finalizado el primer bucle, si el número de validos es inferior al numero de hijos significa que 1 o más son DESCONOCIDO y se procederá a recorrerlos con la estrategia establecida
+                ##Una vez finalizado el primer bucle, si el nï¿½mero de validos es inferior al numero de hijos significa que 1 o mï¿½s son DESCONOCIDO y se procederï¿½ a recorrerlos con la estrategia establecida
                 for i in nodo.hijos:
                     if i.estado == Nodo.Estado.DESCONOCIDO:
                         self.desconocidos.append(i)
                         self.topDown(i)
-                    
+
                 self.buggy = True
-                
+
         else:
             self.buggy = True
 
@@ -195,6 +197,7 @@ class Recorrido():
 
 
     def ask(self, nodo):
+            View.TreeView.show(self.arbol)
             print("Soy la funcion:", nodo.getNombre())
             print("Mi Id es:", nodo.id)
             print("Num hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
@@ -232,7 +235,7 @@ class Recorrido():
             elif(nb == "d"):
                 nodo.estado = Nodo.Estado.DESCONOCIDO
                 self.arbol.recorrerNodos(nodo);
-            else:
+            elif(nb == "n"):
                 nodo.estado = Nodo.Estado.ERROR
                 #Decidir si el id debe ir dentro del else o ejecutarse siempre
                 self.arbol.recorrerNodos(nodo);
@@ -244,23 +247,44 @@ class Recorrido():
                 if(self.estrategia == Estrategia.DIVIDEANDQUERY):
                     self.divideAndQuery(nodo)
 
-            if(self.buggy):
-                self.nodoBuggy = nodo
-                self.buggyMsj()
+            #if(self.buggy):
+            #    self.nodoBuggy = nodo
+            #    self.buggyMsj()
 
 
     def buggyMsj(self):
-        print("Buggy en la funcion:", self.nodoBuggy.getNombre())
-        print("Valor retornado es:", self.nodoBuggy.getValor())
-        sys.exit()
-        
-##clase error deberia ser un diccionario para buscar la key y aÃ±adir el error o generar un error nuevo
+        if self.nodoBuggy.estado == Nodo.Estado.DESCONOCIDO:
+            print("Hay una alta posibilidad de que el nodo buggy sea:", self.nodoBuggy.getNombre())
+            print("Su valor retornado es:", self.nodoBuggy.getValor())
+            View.TreeView.show(self.arbol)
+            nb=""
+            while(nb!="y" and nb!="n"):
+                nb = input("Â¿Quieres revisar los nodos Desconocidos?(y/n)")
+                print(nb)
+                if(nb == "y"):
+                    self.revisarDK()
+                elif(nb == "n"):
+                    sys.exit()
 
-class Error():
 
-    def __init__(self, nombre):
-        self.nombre = nombre
-        self.valor = []
+        else:
+            print("Buggy en la funcion:", self.nodoBuggy.getNombre())
+            print("Valor retornado es:", self.nodoBuggy.getValor())
+            View.TreeView.show(self.arbol)
+            sys.exit()
 
-    def addValor(self, valor):
-        self.valor.append(valor)
+    def revisarDK(self):
+        self.buggy = False
+        j = 0
+        for i in self.desconocidos:
+            if i.estado == Nodo.Estado.DESCONOCIDO:
+                self.ask(i)
+                if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
+                    if(self.estrategia == Estrategia.TOPDOWN):
+                        self.topDown(self.arbol)
+                    if(self.estrategia == Estrategia.HEAVIESTFIRST):
+                        self.heaviestFirst(self.arbol)
+                    if(self.estrategia == Estrategia.DIVIDEANDQUERY):
+                        self.divideAndQuery(self.arbol)
+            self.desconocidos.pop(j)
+            j = j+1

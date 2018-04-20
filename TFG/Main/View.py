@@ -20,6 +20,12 @@ class TreeView():
             print(Fore.RED, end='', flush=True)
         elif nodo.estado == Nodo.Estado.VALIDO:
             print(Fore.GREEN, end='', flush=True)
+        elif nodo.estado == Nodo.Estado.CONFIAR:
+                print(Fore.CYAN, end='', flush=True)
+        elif nodo.estado == Nodo.Estado.INACEPTABLE:
+            print(Fore.YELLOW, end='', flush=True)
+        elif nodo.estado == Nodo.Estado.DESCONOCIDO:
+            print(Fore.MAGENTA, end='', flush=True)
         else:
             print(Style.RESET_ALL, end='', flush=True)
 
