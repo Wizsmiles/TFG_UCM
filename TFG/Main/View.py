@@ -3,6 +3,7 @@ import Nodo
 from colorama import init as colorInit
 from colorama import Fore, Back, Style
 
+
 class TreeView():
 
     @staticmethod
@@ -12,7 +13,7 @@ class TreeView():
 
     @staticmethod
     def recursiveShow(nodo, nivel, first):
-        for i in range(0,nivel):
+        for i in range(0, nivel):
             print('\t', end='', flush=True)
 
         # Cambiamos el color de la consola con respecto al Estado del nodo
@@ -28,7 +29,6 @@ class TreeView():
             print(Fore.MAGENTA, end='', flush=True)
         else:
             print(Style.RESET_ALL, end='', flush=True)
-
 
         print(nodo.getNombre(), end='', flush=True)
         print(' Entrada: (', nodo.getParamsEntrada(), ')', end='', flush=True)
