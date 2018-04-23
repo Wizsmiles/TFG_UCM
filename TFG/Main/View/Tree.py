@@ -49,5 +49,5 @@ class InterfaceApp(App):
         return TreeWidget()
 
 
-if __name__ == '__main__':
+def initGUI():
     InterfaceApp().run()

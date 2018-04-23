@@ -4,17 +4,17 @@ Created on 3 ene. 2018
 '''
 
 import sys
-import time
 import Model.Recorridos as Recorridos
 import Model.Nodo as Nodo
-import View.View
 import Ejemplos
 import getopt
+import View.Tree as View
 
 arbol = Nodo.Nodo()
 cont = 0
 contWait = 0
 wait = False
+
 
 def trace_calls(frame, event, arg):
     global wait, cont, contWait
@@ -57,7 +57,8 @@ def trace_calls(frame, event, arg):
                     hijo.setParamsEntrada(params)
                     arbol.insertar(hijo, cont)
 
-    # Controla los return basura tras un except. Esta basura provoca fallos en el arbol
+    # Controla los return basura tras un except. Esta basura provoca fallos en
+    # el arbol
     else:
         if contWait < 3:
             contWait += 1
@@ -68,7 +69,7 @@ def trace_calls(frame, event, arg):
     return trace_calls
 
 
-##### TODO #####
+# TODO #
 # debugFile = ''
 # debugMethod = ''
 #
@@ -90,28 +91,23 @@ def trace_calls(frame, event, arg):
 
 prueba = "Ejemplos"
 prueba2 = "ejemplo1"
-# exec("import " + prueba)
 exec("from " + prueba + " import " + prueba2 + " as prueba3")
 
-tr = sys.gettrace()  #Guardo la traza original del programa
-sys.settrace(trace_calls) #Traceo la ejecucion del programa
+tr = sys.gettrace()  # Guardo la traza original del programa
+sys.settrace(trace_calls)  # Traceo la ejecucion del programa
 
 try:
     prueba3()
 except:
     None
 
-sys.settrace(tr) #Cargo la traza original guardada
-
+sys.settrace(tr)  # Cargo la traza original guardada
 
 arbol.fusionNodos()
-arbol.calcularPeso() # Tras retornar la traza original del programa calculo el nNodos de cada nodo
+arbol.calcularPeso()
+# Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
+# recorrido = Recorridos.Recorrido(arbol)
+# recorrido.inicializarDQ()
 
-##View.TreeView.show(arbol)
-
-recorrido = Recorridos.Recorrido(arbol)
-recorrido.inicializarDQ()
-# arbol.preorden() #Compruebo que los datos almacenados estan bien
-
-##View.TreeView.show(arbol)
+View.initGUI()
