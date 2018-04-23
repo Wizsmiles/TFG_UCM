@@ -1,5 +1,5 @@
 import sys
-import Nodo
+import Model.Nodo as Nodo
 from colorama import init as colorInit
 from colorama import Fore, Back, Style
 

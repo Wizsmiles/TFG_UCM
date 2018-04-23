@@ -1,7 +1,7 @@
-import Nodo
+import Model.Nodo as Nodo
 from enum import Enum
 import sys
-import View
+import View.View as View
 
 class Estrategia(Enum):
     TOPDOWN = 1

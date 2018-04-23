@@ -5,9 +5,9 @@ Created on 3 ene. 2018
 
 import sys
 import time
-import Recorridos
-import Nodo
-import View
+import Model.Recorridos as Recorridos
+import Model.Nodo as Nodo
+import View.View
 import Ejemplos
 import getopt
 
