@@ -6,7 +6,7 @@ Created on 3 ene. 2018
 import sys
 import Model.Recorridos as Recorridos
 import Model.Nodo as Nodo
-import Ejemplos
+import Utils.Ejemplos
 import getopt
 import View.Tree as View
 
@@ -89,7 +89,7 @@ def trace_calls(frame, event, arg):
 #         debugMethod = arg
 
 
-prueba = "Ejemplos"
+prueba = "Utils.Ejemplos"
 prueba2 = "ejemplo1"
 exec("from " + prueba + " import " + prueba2 + " as prueba3")
 
