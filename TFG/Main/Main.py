@@ -110,4 +110,4 @@ arbol.calcularPeso()
 # recorrido = Recorridos.Recorrido(arbol)
 # recorrido.inicializarDQ()
 
-View.initGUI()
+View.initGUI(arbol)
