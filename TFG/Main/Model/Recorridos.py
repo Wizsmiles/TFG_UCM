@@ -40,7 +40,9 @@ class Recorrido():
                 ##elif i.estado == Nodo.Estado.DESCONOCIDO:
                 elif i.estado == Nodo.Estado.INDEFINIDO:
                     self.ask(i)
-                    if(i.estado == Nodo.Estado.ERROR):
+                    if i.estado == Nodo.Estado.DESCONOCIDO:
+                        self.desconocidos.append(i)
+                    elif(i.estado == Nodo.Estado.ERROR):
                         break
                     elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                         validos = validos+1
@@ -53,7 +55,8 @@ class Recorrido():
 
 
             elif len(nodo.hijos) == validos and nodo.estado == Nodo.Estado.DESCONOCIDO:
-                if nodo.padre.nNodos == 0:
+                # if nodo.padre.nNodos == 0:
+                if self.arbol.nNodos == 1:
                     self.nodoBuggy = nodo
                     self.buggy = True
                     self.buggyMsj()
@@ -63,7 +66,6 @@ class Recorrido():
                 ##Una vez finalizado el primer bucle, si el n�mero de validos es inferior al numero de hijos significa que 1 o m�s son DESCONOCIDO y se proceder� a recorrerlos con la estrategia establecida
                 for i in nodo.hijos:
                     if i.estado == Nodo.Estado.DESCONOCIDO:
-                        self.desconocidos.append(i)
                         self.topDown(i)
 
                 self.buggy = True
@@ -96,8 +98,17 @@ class Recorrido():
                 elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                     validos = validos+1
 
-            if len(nodo.hijos) == validos:
+            if len(nodo.hijos) == validos and nodo.estado != Nodo.Estado.DESCONOCIDO:
+                self.nodoBuggy = nodo
                 self.buggy = True
+                self.buggyMsj()
+
+
+            elif len(nodo.hijos) == validos and nodo.estado == Nodo.Estado.DESCONOCIDO:
+                if self.arbol.nNodos == 1:
+                    self.nodoBuggy = nodo
+                    self.buggy = True
+                    self.buggyMsj()
 
             elif len(descendientes)!=0:
                 found = False
@@ -106,10 +117,15 @@ class Recorrido():
                     if nodo.hijos[j].nNodos == max(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
                         self.ask(nodo.hijos[j])
+                        if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
+                            self.desconocidos.append(nodo.hijos[j])
+
                         if(nodo.hijos[j].estado == Nodo.Estado.VALIDO or nodo.hijos[j].estado == Nodo.Estado.CONFIAR or nodo.hijos[j].estado == Nodo.Estado.INACEPTABLE or nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO):
                             self.heaviestFirst(nodo)
                         else:
+                            self.nodoBuggy = nodo
                             self.buggy = True
+                            self.buggyMsj()
                     j=j+1;
             else:
                 ##Una vez finalizado el primer bucle, si el número de validos es inferior al numero de hijos y no hay descendientes significa que 1 o más son DESCONOCIDO y se procederá a recorrerlos con la estrategia establecida
@@ -117,20 +133,30 @@ class Recorrido():
                 for i in nodo.hijos:
                     if i.estado == Nodo.Estado.DESCONOCIDO:
                         descendientes.append(i.nNodos)
-                        self.desconocidos.append(i)
                 found = False
                 j=0
                 while(found==False):
                     if nodo.hijos[j].nNodos == max(descendientes) and nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                         found = True
                         self.heaviestFirst(nodo.hijos[j])
-                        if(nodo.hijos[j].buggy == False):
-                            self.heaviestFirst(nodo)
-                        else:
+                        if self.arbol.nNodos == 1:
+                            self.nodoBuggy = nodo.hijos[j]
                             self.buggy = True
+                            self.buggyMsj()
+                        else:
+                            print(self.arbol.nNodos)
+                            self.heaviestFirst(self.arbol)
+                        # if(self.buggy == False):
+                            # self.heaviestFirst(nodo)
+                        # else:
+                            # self.nodoBuggy = nodo
+                            # self.buggy = True
+                            # self.buggyMsj()
                     j=j+1;
         else:
+            self.nodoBuggy = nodo
             self.buggy = True
+            self.buggyMsj()
 
 
 
@@ -154,8 +180,18 @@ class Recorrido():
 
 
 
-            if len(nodo.hijos) == validos:
+            if len(nodo.hijos) == validos and nodo.estado != Nodo.Estado.DESCONOCIDO:
+                self.nodoBuggy = nodo
                 self.buggy = True
+                self.buggyMsj()
+
+
+            elif len(nodo.hijos) == validos and nodo.estado == Nodo.Estado.DESCONOCIDO:
+                if self.arbol.nNodos == 1:
+                    self.nodoBuggy = nodo
+                    self.buggy = True
+                    self.buggyMsj()
+
             elif len(descendientes) != 0:
                 found = False
                 j = 0
@@ -166,11 +202,15 @@ class Recorrido():
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
                         self.ask(nodo.hijos[j])
+                        if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
+                            self.desconocidos.append(nodo.hijos[j])
 
                         if(nodo.hijos[j].estado == Nodo.Estado.VALIDO or nodo.hijos[j].estado == Nodo.Estado.CONFIAR or nodo.hijos[j].estado == Nodo.Estado.INACEPTABLE or nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO):
                             self.divideAndQuery(nodo)
                         else:
-                            self.buggy= True
+                            self.nodoBuggy = nodo
+                            self.buggy = True
+                            self.buggyMsj()
 
                     j = j + 1
             else:
@@ -187,24 +227,37 @@ class Recorrido():
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                         found = True
                         self.divideAndQuery(nodo.hijos[j])
-                        if(nodo.hijos[j].buggy == False):
-                            self.divideAndQuery(nodo)
-                        else:
+                        if self.arbol.nNodos == 1:
+                            self.nodoBuggy = nodo.hijos[j]
                             self.buggy = True
+                            self.buggyMsj()
+                        else:
+                            print(self.arbol.nNodos)
+                            self.divideAndQuery(self.arbol)
+
+                        # if(self.buggy == False):
+                            # self.divideAndQuery(nodo)
+                        # else:
+                        #     self.nodoBuggy = nodo
+                        #     self.buggy = True
+                        #     self.buggyMsj()
                     j = j + 1
         else:
+            self.nodoBuggy = nodo
             self.buggy = True
+            self.buggyMsj()
 
 
     def ask(self, nodo):
-            View.TreeView.show(self.arbol)
-            print("Soy la funcion:", nodo.getNombre())
-            print("Mi Id es:", nodo.id)
-            print("Num hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
-            print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
-            print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor())
+
             nb=""
             while(nb!="y" and nb!="n" and nb!="t"  and nb!="i"  and nb!="d"):
+                View.TreeView.show(self.arbol)
+                print("Soy la funcion:", nodo.getNombre())
+                print("Mi Id es:", nodo.id)
+                print("Num hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
+                print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
+                print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor())
                 nb = input("It's correct?(y/n) (press t/i/d --- t for trust/i for unnacceptable/d for don't know): \n (You can swap your strategy pressing e)")
                 print(nb)
                 if(nb == "e"):
@@ -262,7 +315,8 @@ class Recorrido():
                 nb = input("¿Quieres revisar los nodos Desconocidos?(y/n)")
                 print(nb)
                 if(nb == "y"):
-                    self.revisarDK()
+                    while(len(self.desconocidos) > 0):
+                        self.revisarDK()
                 elif(nb == "n"):
                     sys.exit()
 
@@ -276,15 +330,21 @@ class Recorrido():
     def revisarDK(self):
         self.buggy = False
         j = 0
+
         for i in self.desconocidos:
             if i.estado == Nodo.Estado.DESCONOCIDO:
-                self.ask(i)
-                if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
-                    if(self.estrategia == Estrategia.TOPDOWN):
-                        self.topDown(self.arbol)
-                    if(self.estrategia == Estrategia.HEAVIESTFIRST):
-                        self.heaviestFirst(self.arbol)
-                    if(self.estrategia == Estrategia.DIVIDEANDQUERY):
-                        self.divideAndQuery(self.arbol)
-            self.desconocidos.pop(j)
+                if i.padre.estado == Nodo.Estado.VALIDO or i.padre.estado == Nodo.Estado.CONFIAR or i.padre.estado == Nodo.Estado.INACEPTABLE:
+                    #Hereda el estado del padre, para indicar que no tiene que avanzar más
+                    i.estado = i.padre.estado
+                    self.desconocidos.pop(j)
+                else :
+                    self.ask(i)
+                    if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
+                        self.desconocidos.pop(j)
+                        if(self.estrategia == Estrategia.TOPDOWN):
+                            self.topDown(self.arbol)
+                        if(self.estrategia == Estrategia.HEAVIESTFIRST):
+                            self.heaviestFirst(self.arbol)
+                        if(self.estrategia == Estrategia.DIVIDEANDQUERY):
+                            self.divideAndQuery(self.arbol)
             j = j+1

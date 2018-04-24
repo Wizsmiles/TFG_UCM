@@ -40,7 +40,9 @@ class TreeView():
             first = True
 
             for i in nodo.hijos:
-                TreeView.recursiveShow(i, nivel, first)
-                first = False
+                if i.padre.estado ==  Nodo.Estado.ERROR or i.padre.estado ==  Nodo.Estado.DESCONOCIDO or i.padre.estado ==  Nodo.Estado.INDEFINIDO:
+                    TreeView.recursiveShow(i, nivel, first)
+                    first = False
+                print(Style.RESET_ALL, end='', flush=True)
         else:
-            print()
+            print(Style.RESET_ALL, end='', flush=True)
