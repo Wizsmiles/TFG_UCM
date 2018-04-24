@@ -6,14 +6,34 @@ from kivy.uix.floatlayout import FloatLayout
 
 def populate_tree_view(tree_view, parent, node):
     if parent is None:
-        tree_node = tree_view.add_node(TreeViewLabel(text=node.getNombre(),
-                                                     is_open=True))
+        tree_node = tree_view.add_node(TreeViewLabel(
+            text=buildStringNameLabel(node),
+            is_open=True
+        ))
     else:
-        tree_node = tree_view.add_node(TreeViewLabel(text=node.getNombre(),
-                                                     is_open=True), parent)
+        tree_node = tree_view.add_node(TreeViewLabel(
+            text=buildStringNameLabel(node),
+            is_open=True
+        ), parent)
 
     for child_node in node.hijos:
         populate_tree_view(tree_view, tree_node, child_node)
+
+
+def buildStringNameLabel(node):
+    nameLabel = node.getNombre()
+    nameLabel += ' ('
+    # nameLabel += '(' + str(node.getParamsEntrada()) + ')'
+
+    for key, value in node.getParamsEntrada().items():
+        nameLabel += str(key) + ': ' + str(value) + ', '
+
+    if len(node.getParamsEntrada()) >= 1:
+        nameLabel = nameLabel[:-2]
+
+    nameLabel += ')'
+
+    return nameLabel
 
 
 class TreeWidget(FloatLayout):
