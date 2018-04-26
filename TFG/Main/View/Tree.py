@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.scrollview import ScrollView
 
 
 def populate_tree_view(tree_view, parent, node):
@@ -22,16 +23,19 @@ def populate_tree_view(tree_view, parent, node):
 
 def buildStringNameLabel(node):
     nameLabel = node.getNombre()
-    nameLabel += ' ('
-    # nameLabel += '(' + str(node.getParamsEntrada()) + ')'
+    nameLabel += ' ( )\n'
 
+    nameLabel += '  Parámetros entrada:\n'
     for key, value in node.getParamsEntrada().items():
-        nameLabel += str(key) + ': ' + str(value) + ', '
+        nameLabel += '  - ' + str(key) + ': ' + str(value) + '\n'
 
     if len(node.getParamsEntrada()) >= 1:
-        nameLabel = nameLabel[:-2]
+        nameLabel = nameLabel[:-1]
 
-    nameLabel += ')'
+    nameLabel += '\n  Parámetros salida:\n'
+
+    for key, value in node.getParamsMods().items():
+        nameLabel += '  - ' + str(key) + ': ' + str(value) + '\n'
 
     return nameLabel
 
@@ -42,8 +46,8 @@ class TreeWidget(FloatLayout):
 
     def populate(self, arbol):
         tv = TreeView(root_options=dict(text='Tree One'),
-                      hide_root=False,
-                      indent_level=4)
+                      hide_root=True,
+                      indent_level=10)
 
         populate_tree_view(tv, None, arbol)
 
@@ -58,6 +62,7 @@ class InterfaceApp(App):
         self.treeWidget = TreeWidget()
 
     def build(self):
+
         return self.treeWidget
 
     def populate(self, arbol):

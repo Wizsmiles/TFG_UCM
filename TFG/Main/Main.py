@@ -107,7 +107,7 @@ arbol.fusionNodos()
 arbol.calcularPeso()
 # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
-recorrido = Recorridos.Recorrido(arbol)
-recorrido.inicializarDQ()
+# recorrido = Recorridos.Recorrido(arbol)
+# recorrido.inicializarDQ()
 
-# View.initGUI(arbol)
+View.initGUI(arbol)
