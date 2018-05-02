@@ -27,7 +27,7 @@ def buildStringNameLabel(node):
 
     nameLabel += '  Parámetros entrada:\n'
     for key, value in node.getParamsEntrada().items():
-        nameLabel += '  - ' + str(key) + ': ' + str(value) + '\n'
+        nameLabel += '      - ' + str(key) + ': ' + str(value) + '\n'
 
     if len(node.getParamsEntrada()) >= 1:
         nameLabel = nameLabel[:-1]
@@ -35,7 +35,7 @@ def buildStringNameLabel(node):
     nameLabel += '\n  Parámetros salida:\n'
 
     for key, value in node.getParamsMods().items():
-        nameLabel += '  - ' + str(key) + ': ' + str(value) + '\n'
+        nameLabel += '      - ' + str(key) + ': ' + str(value) + '\n'
 
     return nameLabel
 

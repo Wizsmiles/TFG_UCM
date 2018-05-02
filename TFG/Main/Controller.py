@@ -1,18 +1,9 @@
-'''
-Created on 3 ene. 2018
-@author: Jose J. Escudero Gomez
-'''
-
 import sys
 import Model.Recorridos as Recorridos
 import Model.Nodo as Nodo
 import View.Tree as View
 
 arbol = Nodo.Nodo()
-cont = 0
-contWait = 0
-wait = False
-
 
 def trace_calls(frame, event, arg):
     global wait, cont, contWait
@@ -67,25 +58,29 @@ def trace_calls(frame, event, arg):
     return trace_calls
 
 
-prueba = "Utils.Ejemplos"
-prueba2 = "ejemplo1"
-exec("from " + prueba + " import " + prueba2 + " as prueba3")
+def run():
+    prueba = "Utils.Ejemplos"
+    prueba2 = "ejemplo1"
+    exec("from " + prueba + " import " + prueba2 + " as prueba3")
 
-tr = sys.gettrace()  # Guardo la traza original del programa
-sys.settrace(trace_calls)  # Traceo la ejecucion del programa
+    tr = sys.gettrace()  # Guardo la traza original del programa
+    sys.settrace(trace_calls)  # Traceo la ejecucion del programa
 
-try:
-    prueba3()
-except:
-    None
+    try:
+        prueba3()
+    except:
+        None
 
-sys.settrace(tr)  # Cargo la traza original guardada
+    sys.settrace(tr)  # Cargo la traza original guardada
 
-arbol.fusionNodos()
-arbol.calcularPeso()
-# Tras retornar la traza original del programa calculo el nNodos de cada nodo
+    arbol.fusionNodos()
+    arbol.calcularPeso()
+    # Tras retornar la traza original del programa calculo el nNodos de cada
+    # nodo
 
-# recorrido = Recorridos.Recorrido(arbol)
-# recorrido.inicializarDQ()
+    recorrido = Recorridos.Recorrido(arbol)
+    recorrido.inicializarDQ()
 
-View.initGUI(arbol)
+    # View.initGUI(arbol)
+
+    return
