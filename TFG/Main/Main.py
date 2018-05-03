@@ -12,6 +12,29 @@ arbol = Nodo.Nodo()
 cont = 0
 contWait = 0
 wait = False
+argv = sys.argv[1:]
+
+inputfile = ''
+function = ''
+
+try:
+    inputfile = argv[0]
+    function = argv[1]
+
+    if len(argv) > 2:
+        raise Exception("Too many arguments")
+
+except Exception:
+    if len(argv) == 1:
+        print("\nERROR: Missing one argument. A function name is needed")
+    elif len(argv) < 1:
+        print("\nERROR: Missing two arguments. A input file and a function"
+              " name are needed")
+    elif len(argv) > 2:
+        print("\nERROR: Too many arguments. Only two needed")
+
+    print("Usage: Main.py <inputfile> <function>")
+    exit()
 
 
 def trace_calls(frame, event, arg):
@@ -85,7 +108,7 @@ arbol.fusionNodos()
 arbol.calcularPeso()
 # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
+# View.initGUI(arbol)
+#
 # recorrido = Recorridos.Recorrido(arbol)
 # recorrido.inicializarDQ()
-
-View.initGUI(arbol)
