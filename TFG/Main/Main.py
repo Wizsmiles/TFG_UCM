@@ -16,8 +16,13 @@ argv = sys.argv[1:]
 
 inputfile = ''
 function = ''
+graphics = False
 
 try:
+    if "-g" in argv:
+        graphics = True
+        del argv[argv.index("-g")]
+
     inputfile = argv[0]
     function = argv[1]
 
@@ -33,9 +38,18 @@ except Exception:
     elif len(argv) > 2:
         print("\nERROR: Too many arguments. Only two needed")
 
-    print("Usage: Main.py <inputfile> <function>")
+    print("Usage: Main.py <inputfile> <function> <-g>\nThe -g flag enables the"
+          " GUI")
     exit()
 
+fileArray = inputfile.split('/')
+folder = fileArray[0:len(fileArray)-1]
+folder = '/'.join(str(x) for x in folder)
+
+sys.path.insert(0, folder)
+
+file = fileArray[len(fileArray)-1]
+file = file.split('.')[0]
 
 def trace_calls(frame, event, arg):
     global wait, cont, contWait
@@ -90,16 +104,19 @@ def trace_calls(frame, event, arg):
     return trace_calls
 
 
-prueba = "Utils.Ejemplos"
-prueba2 = "ejemplo1"
-exec("from " + prueba + " import " + prueba2 + " as prueba3")
+command = "from " + file + " import " + function + " as func"
+exec(command)
+
+# prueba = "Utils.Ejemplos"
+# prueba2 = "ejemplo1"
+# exec("from " + prueba + " import " + prueba2 + " as prueba3")
 
 tr = sys.gettrace()  # Guardo la traza original del programa
 sys.settrace(trace_calls)  # Traceo la ejecucion del programa
 
 try:
-    prueba3()
-except:
+    func()
+except Exception:
     None
 
 sys.settrace(tr)  # Cargo la traza original guardada
@@ -108,7 +125,8 @@ arbol.fusionNodos()
 arbol.calcularPeso()
 # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
-# View.initGUI(arbol)
-#
-# recorrido = Recorridos.Recorrido(arbol)
-# recorrido.inicializarDQ()
+if graphics:
+    View.initGUI(arbol)
+else:
+    recorrido = Recorridos.Recorrido(arbol)
+    recorrido.inicializarDQ()
