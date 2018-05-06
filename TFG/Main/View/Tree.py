@@ -50,6 +50,7 @@ class TreeWidget(FloatLayout):
                       hide_root=True,
                       indent_level=10)
 
+
         populate_tree_view(tv, None, arbol)
 
         self.add_widget(tv)
@@ -60,14 +61,19 @@ class InterfaceApp(App):
 
     def __init__(self, **kwargs):
         super(InterfaceApp, self).__init__(**kwargs)
-        self.treeWidget = TreeWidget()
+        self.tv = TreeView(root_options=dict(text='Tree One'),
+                      hide_root=True,
+                      indent_level=10)
 
     def build(self):
-
-        return self.treeWidget
+        self.tv.size_hint = 1, None
+        self.tv.bind(minimum_height = self.tv.setter('height'))
+        root = ScrollView(pos = (0, 0))
+        root.add_widget(self.tv)
+        return root
 
     def populate(self, arbol):
-        self.treeWidget.populate(arbol)
+        populate_tree_view(self.tv, None, arbol)
 
 
 def initGUI(arbol):

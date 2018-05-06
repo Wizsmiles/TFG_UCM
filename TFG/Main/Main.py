@@ -51,6 +51,9 @@ sys.path.insert(0, folder)
 file = fileArray[len(fileArray)-1]
 file = file.split('.')[0]
 
+def getArbol():
+    return arbol
+
 def trace_calls(frame, event, arg):
     global wait, cont, contWait
 
