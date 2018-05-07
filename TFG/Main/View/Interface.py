@@ -1,8 +1,6 @@
 from kivy.app import App
 from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scrollview import ScrollView
 
 
@@ -41,34 +39,19 @@ def buildStringNameLabel(node):
     return nameLabel
 
 
-class TreeWidget(FloatLayout):
-    def __init__(self, **kwargs):
-        super(TreeWidget, self).__init__(**kwargs)
-
-    def populate(self, arbol):
-        tv = TreeView(root_options=dict(text='Tree One'),
-                      hide_root=True,
-                      indent_level=10)
-
-
-        populate_tree_view(tv, None, arbol)
-
-        self.add_widget(tv)
-
-
 class InterfaceApp(App):
     title = "Buggy debugger"
 
     def __init__(self, **kwargs):
         super(InterfaceApp, self).__init__(**kwargs)
         self.tv = TreeView(root_options=dict(text='Tree One'),
-                      hide_root=True,
-                      indent_level=10)
+                           hide_root=True,
+                           indent_level=10)
 
     def build(self):
         self.tv.size_hint = 1, None
-        self.tv.bind(minimum_height = self.tv.setter('height'))
-        root = ScrollView(pos = (0, 0))
+        self.tv.bind(minimum_height=self.tv.setter('height'))
+        root = ScrollView(pos=(0, 0))
         root.add_widget(self.tv)
         return root
 

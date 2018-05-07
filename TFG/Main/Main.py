@@ -6,7 +6,7 @@ Created on 3 ene. 2018
 import sys
 import Model.Recorridos as Recorridos
 import Model.Nodo as Nodo
-import View.Tree as View
+import View.Interface as Interface
 
 arbol = Nodo.Nodo()
 cont = 0
@@ -129,7 +129,7 @@ arbol.calcularPeso()
 # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
 if graphics:
-    View.initGUI(arbol)
+    Interface.initGUI(arbol)
 else:
     recorrido = Recorridos.Recorrido(arbol)
     recorrido.inicializarDQ()
