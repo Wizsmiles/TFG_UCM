@@ -2,17 +2,25 @@ from kivy.app import App
 from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.scrollview import ScrollView
+from View.CustomTreeNode import CustomTreeNode
 
 
 def populate_tree_view(tree_view, parent, node):
     if parent is None:
-        tree_node = tree_view.add_node(TreeViewLabel(
-            text=buildStringNameLabel(node),
+        # tree_node = tree_view.add_node(TreeViewLabel(
+        #     text=buildStringNameLabel(node),
+        #     is_open=True
+        # ))
+
+        tree_node = tree_view.add_node(CustomTreeNode(
             is_open=True
         ))
     else:
-        tree_node = tree_view.add_node(TreeViewLabel(
-            text=buildStringNameLabel(node),
+        # tree_node = tree_view.add_node(TreeViewLabel(
+        #     text=buildStringNameLabel(node),
+        #     is_open=True
+        # ), parent)
+        tree_node = tree_view.add_node(CustomTreeNode(
             is_open=True
         ), parent)
 
