@@ -1,18 +1,26 @@
 from kivy.app import App
 from kivy.uix.treeview import TreeView
-from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.scrollview import ScrollView
 from View.CustomTreeNode import CustomTreeNode
+from Model.Nodo import Nodo
 
 
-def populate_tree_view(tree_view, parent, node):
+tree = Nodo()
+tv = TreeView(
+    root_options=dict(text='Tree One'),
+    hide_root=True,
+    indent_level=10
+)
+
+
+def populate_tree_view(parent, node):
     if parent is None:
         # tree_node = tree_view.add_node(TreeViewLabel(
         #     text=buildStringNameLabel(node),
         #     is_open=True
         # ))
 
-        tree_node = tree_view.add_node(CustomTreeNode(
+        tree_node = tv.add_node(CustomTreeNode(
             is_open=True
         ))
     else:
@@ -20,12 +28,12 @@ def populate_tree_view(tree_view, parent, node):
         #     text=buildStringNameLabel(node),
         #     is_open=True
         # ), parent)
-        tree_node = tree_view.add_node(CustomTreeNode(
+        tree_node = tv.add_node(CustomTreeNode(
             is_open=True
         ), parent)
 
     for child_node in node.hijos:
-        populate_tree_view(tree_view, tree_node, child_node)
+        populate_tree_view(tree_node, child_node)
 
 
 def buildStringNameLabel(node):
@@ -52,22 +60,18 @@ class InterfaceApp(App):
 
     def __init__(self, **kwargs):
         super(InterfaceApp, self).__init__(**kwargs)
-        self.tv = TreeView(root_options=dict(text='Tree One'),
-                           hide_root=True,
-                           indent_level=10)
 
     def build(self):
-        self.tv.size_hint = 1, None
-        self.tv.bind(minimum_height=self.tv.setter('height'))
+        tv.size_hint = 1, None
+        tv.bind(minimum_height=tv.setter('height'))
         root = ScrollView(pos=(0, 0))
-        root.add_widget(self.tv)
+        populate_tree_view(None, tree)
+        root.add_widget(tv)
         return root
-
-    def populate(self, arbol):
-        populate_tree_view(self.tv, None, arbol)
 
 
 def initGUI(arbol):
+    global tree
+    tree = arbol
     ia = InterfaceApp()
-    ia.populate(arbol)
     ia.run()
