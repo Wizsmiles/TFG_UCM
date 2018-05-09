@@ -16,11 +16,15 @@ argv = sys.argv[1:]
 inputfile = ''
 function = ''
 graphics = False
+fusion = False
 
 try:
     if "-g" in argv:
         graphics = True
         del argv[argv.index("-g")]
+    if "-f" in argv:
+        fusion = True
+        del argv[argv.index("-f")]
 
     inputfile = argv[0]
     function = argv[1]
@@ -37,8 +41,8 @@ except Exception:
     elif len(argv) > 2:
         print("\nERROR: Too many arguments. Only two needed")
 
-    print("Usage: Main.py <inputfile> <function> <-g>\nThe -g flag enables the"
-          " GUI")
+    print("Usage: Main.py <inputfile> <function> <-g|-f>\n\t- The -g flag"
+          " enables the GUI\n\t- The -f flag enables the node fusion")
     exit()
 
 fileArray = inputfile.split('/')
@@ -50,8 +54,10 @@ sys.path.insert(0, folder)
 file = fileArray[len(fileArray)-1]
 file = file.split('.')[0]
 
+
 def getArbol():
     return arbol
+
 
 def trace_calls(frame, event, arg):
     global wait, cont, contWait
@@ -123,7 +129,8 @@ except Exception:
 
 sys.settrace(tr)  # Cargo la traza original guardada
 
-arbol.fusionNodos()
+if fusion:
+    arbol.fusionNodos()
 arbol.calcularPeso()
 # Tras retornar la traza original del programa calculo el nNodos de cada nodo
 

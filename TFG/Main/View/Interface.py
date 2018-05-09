@@ -9,25 +9,16 @@ tree = Nodo()
 tv = TreeView(
     root_options=dict(text='Tree One'),
     hide_root=True,
-    indent_level=10
+    indent_level=20
 )
 
 
 def populate_tree_view(parent, node):
     if parent is None:
-        # tree_node = tree_view.add_node(TreeViewLabel(
-        #     text=buildStringNameLabel(node),
-        #     is_open=True
-        # ))
-
         tree_node = tv.add_node(CustomTreeNode(
             is_open=True
         ))
     else:
-        # tree_node = tree_view.add_node(TreeViewLabel(
-        #     text=buildStringNameLabel(node),
-        #     is_open=True
-        # ), parent)
         tree_node = tv.add_node(CustomTreeNode(
             is_open=True
         ), parent)
