@@ -6,7 +6,11 @@ from kivy.uix.treeview import TreeViewNode
 
 
 class CustomTreeNode(BoxLayout, TreeViewNode):
-    pass
+
+    def buildNode(self, name, params, state):
+        self.ids.labelName.text = name
+        self.ids.labelParams.text = params
+        self.ids.labelState.text = state
 
 
 # class InterfaceApp(App):

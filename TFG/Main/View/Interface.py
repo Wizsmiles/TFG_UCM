@@ -15,13 +15,20 @@ tv = TreeView(
 
 def populate_tree_view(parent, node):
     if parent is None:
-        tree_node = tv.add_node(CustomTreeNode(
-            is_open=True
-        ))
+        auxNode = CustomTreeNode(is_open=True)
+        auxNode.buildNode(node.getNombre(),
+                          str(node.getParamsEntrada()),
+                          str(node.estado))
+
+        tree_node = tv.add_node(auxNode)
+
     else:
-        tree_node = tv.add_node(CustomTreeNode(
-            is_open=True
-        ), parent)
+        auxNode = CustomTreeNode(is_open=True)
+        auxNode.buildNode(node.getNombre(),
+                          str(node.getParamsEntrada()),
+                          str(node.estado))
+
+        tree_node = tv.add_node(auxNode, parent)
 
     for child_node in node.hijos:
         populate_tree_view(tree_node, child_node)
