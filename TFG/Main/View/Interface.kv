@@ -14,22 +14,50 @@
       Button:
         id: buttonYes
         text: 'yes'
+        disabled: True
       Button:
         id: buttonNo
         text: 'no'
+        disabled: True
 
     BoxLayout:
       orientation: 'vertical'
       Button:
         id: buttonTrust
         text: "trust"
+        disabled: True
       Button:
         id: buttonUnacceptable
         text: "unacceptable"
+        disabled: True
       Button:
         id: buttonDontKnow
         text: "don't know"
+        disabled: True
 
   Label:
     id: labelState
     text: 'estado'
+
+
+<Menu>:
+  size_hint: 1,0.2
+  GridLayout:
+    size_hint: .25,1
+    cols: 2
+    AnchorLayout:
+      anchor_x: 'right'
+      Button:
+        size_hint: .75,.5
+        id: buttonGo
+        text: 'Go!'
+    AnchorLayout:
+      anchor_x: 'right'
+      Button:
+        size_hint: .75,.5
+        id: buttonExit
+        text: 'Exit'
+
+  BoxLayout:
+    Label:
+      text: 'La funcion buggy es: ____'
