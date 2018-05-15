@@ -6,6 +6,7 @@ from View.Menu import Menu
 from Model.Nodo import Nodo
 from kivy.uix.boxlayout import BoxLayout
 from kivy.config import Config
+from Controller import Controller
 
 
 Config.set('graphics', 'width', '800')
@@ -23,7 +24,8 @@ tv = TreeView(
 def populate_tree_view(parent, node):
     if parent is None:
         auxNode = CustomTreeNode(is_open=True)
-        auxNode.buildNode(node.getNombre(),
+        auxNode.buildNode(node.id,
+                          node.getNombre(),
                           str(node.getParamsEntrada()),
                           str(node.estado))
 
@@ -31,7 +33,8 @@ def populate_tree_view(parent, node):
 
     else:
         auxNode = CustomTreeNode(is_open=True)
-        auxNode.buildNode(node.getNombre(),
+        auxNode.buildNode(node.id,
+                          node.getNombre(),
                           str(node.getParamsEntrada()),
                           str(node.estado))
 
@@ -70,8 +73,7 @@ class MainFrame(BoxLayout):
         populate_tree_view(None, tree)
         sv.add_widget(tv)
         self.add_widget(sv)
-        # self.add_widget(Label(text='hola'))
-        self.add_widget(Menu())
+        self.add_widget(Menu(controller))
 
 
 class InterfaceApp(App):
@@ -84,9 +86,10 @@ class InterfaceApp(App):
         return MainFrame()
 
 
-def initGUI(arbol):
-    global tree
+def initGUI(arbol, controlador):
+    global tree, controller
     tree = arbol
+    controller = controlador
     ia = InterfaceApp()
     ia.run()
     print("hola")

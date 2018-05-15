@@ -9,7 +9,7 @@ class Estrategia(Enum):
     DIVIDEANDQUERY = 3
 
 class Recorrido():
-    def __init__(self, tree):
+    def __init__(self, tree, graphics, controller):
         self.arbol = tree
         self.estrategia = Estrategia.TOPDOWN
         self.arbol.estado = Nodo.Estado.ERROR
@@ -18,6 +18,8 @@ class Recorrido():
         self.buggy = False
         self.buggyDN = False
         self.nodoBuggy = Nodo.Nodo()
+        self.graphics = graphics
+        self.controller = controller
 
         #####################TOPDOWN###################
 
@@ -39,7 +41,8 @@ class Recorrido():
                     break
                 ##elif i.estado == Nodo.Estado.DESCONOCIDO:
                 elif i.estado == Nodo.Estado.INDEFINIDO:
-                    self.ask(i)
+                    if(not self.graphics):
+                        self.ask(i)
                     if i.estado == Nodo.Estado.DESCONOCIDO:
                         self.desconocidos.append(i)
                     elif(i.estado == Nodo.Estado.ERROR):
@@ -116,7 +119,8 @@ class Recorrido():
                 while(found==False):
                     if nodo.hijos[j].nNodos == max(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
-                        self.ask(nodo.hijos[j])
+                        if(not self.graphics):
+                            self.ask(nodo.hijos[j])
                         if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                             self.desconocidos.append(nodo.hijos[j])
 
@@ -201,7 +205,8 @@ class Recorrido():
 
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
-                        self.ask(nodo.hijos[j])
+                        if(not self.graphics):
+                            self.ask(nodo.hijos[j])
                         if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                             self.desconocidos.append(nodo.hijos[j])
 
@@ -304,6 +309,8 @@ class Recorrido():
             #    self.nodoBuggy = nodo
             #    self.buggyMsj()
 
+    def askGUI(self):
+        return
 
     def buggyMsj(self):
         if self.nodoBuggy.estado == Nodo.Estado.DESCONOCIDO:
@@ -338,7 +345,8 @@ class Recorrido():
                     i.estado = i.padre.estado
                     self.desconocidos.pop(j)
                 else :
-                    self.ask(i)
+                    if(not self.graphics):
+                        self.ask(i)
                     if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                         self.desconocidos.pop(j)
                         if(self.estrategia == Estrategia.TOPDOWN):
