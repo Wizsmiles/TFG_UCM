@@ -16,5 +16,6 @@ class Controller:
             recorrido.inicializarDQ()
 
     def startDebugging(self):
+        import View.Interface as Interface
         recorrido = Recorridos.Recorrido(self.tree, self.graphics, self)
-        recorrido.inicializarDQ()
+        Interface.setSelected(recorrido.inicializarDQ())

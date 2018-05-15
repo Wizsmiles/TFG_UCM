@@ -43,6 +43,8 @@ class Recorrido():
                 elif i.estado == Nodo.Estado.INDEFINIDO:
                     if(not self.graphics):
                         self.ask(i)
+                    else:
+                        return self.askGUI(i)
                     if i.estado == Nodo.Estado.DESCONOCIDO:
                         self.desconocidos.append(i)
                     elif(i.estado == Nodo.Estado.ERROR):
@@ -121,6 +123,8 @@ class Recorrido():
                         found = True
                         if(not self.graphics):
                             self.ask(nodo.hijos[j])
+                        else:
+                            return self.askGUI(nodo.hijos[j])
                         if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                             self.desconocidos.append(nodo.hijos[j])
 
@@ -168,7 +172,7 @@ class Recorrido():
 
 ###################################DIVIDEANDQUERY############################
     def inicializarDQ(self):
-        self.divideAndQuery(self.arbol)
+        return self.divideAndQuery(self.arbol)
         self.ended = True
 
     def divideAndQuery(self, nodo):
@@ -207,6 +211,8 @@ class Recorrido():
                         found = True
                         if(not self.graphics):
                             self.ask(nodo.hijos[j])
+                        else:
+                            return self.askGUI(nodo.hijos[j])
                         if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                             self.desconocidos.append(nodo.hijos[j])
 
@@ -309,8 +315,8 @@ class Recorrido():
             #    self.nodoBuggy = nodo
             #    self.buggyMsj()
 
-    def askGUI(self):
-        return
+    def askGUI(self, nodo):
+        return nodo
 
     def buggyMsj(self):
         if self.nodoBuggy.estado == Nodo.Estado.DESCONOCIDO:
@@ -347,6 +353,8 @@ class Recorrido():
                 else :
                     if(not self.graphics):
                         self.ask(i)
+                    else:
+                        return self.askGUI(i)
                     if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                         self.desconocidos.pop(j)
                         if(self.estrategia == Estrategia.TOPDOWN):

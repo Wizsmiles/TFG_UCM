@@ -27,6 +27,7 @@ def populate_tree_view(parent, node):
         auxNode.buildNode(node.id,
                           node.getNombre(),
                           str(node.getParamsEntrada()),
+                          str(node.getValor()),
                           str(node.estado))
 
         tree_node = tv.add_node(auxNode)
@@ -36,6 +37,7 @@ def populate_tree_view(parent, node):
         auxNode.buildNode(node.id,
                           node.getNombre(),
                           str(node.getParamsEntrada()),
+                          str(node.getValor()),
                           str(node.estado))
 
         tree_node = tv.add_node(auxNode, parent)
@@ -86,10 +88,27 @@ class InterfaceApp(App):
         return MainFrame()
 
 
+def searchNode(node):
+    for ctn in tv.iterate_all_nodes(tv.root):
+        if isinstance(ctn, CustomTreeNode):
+            if ctn.nodeId == node.id:
+                return ctn
+
+
+def setSelected(node):
+    auxNode = searchNode(node)
+    if auxNode is not None:
+        tv.select_node(auxNode)
+        auxNode.ids.buttonYes.disabled = False
+        auxNode.ids.buttonNo.disabled = False
+        auxNode.ids.buttonTrust.disabled = False
+        auxNode.ids.buttonDontKnow.disabled = False
+        auxNode.ids.buttonUnacceptable.disabled = False
+
+
 def initGUI(arbol, controlador):
     global tree, controller
     tree = arbol
     controller = controlador
     ia = InterfaceApp()
     ia.run()
-    print("hola")
