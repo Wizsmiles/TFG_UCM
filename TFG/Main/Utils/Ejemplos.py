@@ -82,7 +82,18 @@ def excepcion3():
 def ejemplo4():
     excepcion3()
     excepcion2()
-   
+
+# Ejemplo algoritmo Euclides recursivo
+
+def euclides():
+    mcd = euclides_rec(256,6)
+    return mcd
+    
+def euclides_rec(num1,num2):
+    if num2 == 0:
+        return num1
+    return euclides_rec(num2, num1 % num2)
+
 ## EJEMPLOS OBTENIDOS DE ROSETTACODE ##
 
 # Codigo ejemplo de QuickSort
