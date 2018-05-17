@@ -2,6 +2,7 @@ import Model.Nodo as Nodo
 from enum import Enum
 import sys
 import View.View as View
+import copy
 
 class Estrategia(Enum):
     TOPDOWN = 1
@@ -24,11 +25,12 @@ class Recorrido():
         #####################TOPDOWN###################
 
     def inicializarTD(self):
-        self.topDown(self.arbol)
+        self.estrategia = Estrategia.TOPDOWN
+        return self.topDown(self.arbol)
         self.ended = True
 
     def topDown(self, nodo):
-        if len(nodo.hijos) != 0:
+        if len(nodo.hijos) != 0 and nodo.estado != Nodo.Estado.VALIDO and nodo.estado != Nodo.Estado.CONFIAR and nodo.estado != Nodo.Estado.INACEPTABLE:
             validos = 0
 
 
@@ -44,7 +46,7 @@ class Recorrido():
                     if(not self.graphics):
                         self.ask(i)
                     else:
-                        return self.askGUI(i)
+                        return i
                     if i.estado == Nodo.Estado.DESCONOCIDO:
                         self.desconocidos.append(i)
                     elif(i.estado == Nodo.Estado.ERROR):
@@ -83,7 +85,8 @@ class Recorrido():
         ################################HEAVIESTFIRST####################################
 
     def inicializarHF(self):
-        self.heaviestFirst(self.arbol)
+        self.estrategia = Estrategia.HEAVIESTFIRST
+        return self.heaviestFirst(self.arbol)
         self.ended = True
 
     def heaviestFirst(self, nodo):
@@ -172,6 +175,7 @@ class Recorrido():
 
 ###################################DIVIDEANDQUERY############################
     def inicializarDQ(self):
+        self.estrategia = Estrategia.DIVIDEANDQUERY
         return self.divideAndQuery(self.arbol)
         self.ended = True
 

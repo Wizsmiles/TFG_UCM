@@ -4,7 +4,6 @@ Created on 3 ene. 2018
 '''
 
 import sys
-import Model.Recorridos as Recorridos
 import Model.Nodo as Nodo
 from Controller import Controller
 
