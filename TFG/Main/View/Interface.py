@@ -6,7 +6,10 @@ from View.Menu import Menu
 from Model.Nodo import Nodo
 from Model.Nodo import Estado
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 
 Config.set('graphics', 'width', '800')
@@ -113,6 +116,26 @@ def updateNodes():
             ctn.updateNode()
             if ctn.is_open and (ctn.node.estado == Estado.VALIDO or ctn.node.estado == Estado.CONFIAR or ctn.node.estado == Estado.INACEPTABLE):
                 tv.toggle_node(ctn)
+
+
+class DKPopup(GridLayout):
+
+	def __init__(self,**kwargs):
+		self.register_event_type('on_answer')
+		super(DKPopup,self).__init__(**kwargs)
+
+	def on_answer(self, *args):
+		pass
+
+
+def askDK():
+    content = DKPopup()
+    popup = Popup(title="Answer Question",
+							content=content,
+							size_hint=(None, None),
+							size=(480,400),
+							auto_dismiss= False)
+    popup.open()
 
 
 def initGUI(arbol, controlador):

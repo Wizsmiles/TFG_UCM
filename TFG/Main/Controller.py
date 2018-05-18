@@ -6,7 +6,6 @@ from Model.Nodo import Estado
 from Model.RecorridosGUI import RecorridoGUI
 from View.View import TreeView
 
-
 class Controller:
 
     def __init__(self, tree, graphics):
@@ -59,7 +58,9 @@ class Controller:
         # elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
         #     Interface.setSelected(self.recorrido.divideAndQuery(nextNode))
 
-        if self.recorrido.buggy:
+        if self.recorrido.buggy and not self.recorrido.desconocidos:
             TreeView.show(self.tree)
+        elif self.recorrido.buggy and self.recorrido.desconocidos:
+            Interface.askDK()
         else:
             Interface.setSelected(nodeToSelect)

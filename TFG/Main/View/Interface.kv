@@ -62,15 +62,31 @@
       Button:
         size_hint: .75,.5
         id: buttonGo
-        text: 'Go!'
+        text: 'Debug'
     AnchorLayout:
       anchor_x: 'right'
       Button:
         size_hint: .75,.5
         id: buttonExit
-        text: 'Exit'
+        text: 'Salir'
 
   BoxLayout:
     Label:
       text: 'La funcion buggy es: ____'
       color: 1,1,1,1
+
+
+<DKPopup>:
+  cols:1
+  Label:
+    text: 'hola'
+  GridLayout:
+    cols: 2
+    size_hint_y: None
+    height: '44sp'
+    Button:
+      text: 'Yes'
+      on_release: root.dispatch('on_answer','yes')
+    Button:
+      text: 'No'
+      on_release: root.dispatch('on_answer', 'no')

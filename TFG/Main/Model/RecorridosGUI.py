@@ -19,3 +19,7 @@ class RecorridoGUI():
         if nodo.estado == Estado.ERROR:
             self.buggy = True
             self.buggyNode = nodo
+
+        elif nodo.estado == Estado.DESCONOCIDO:
+            self.buggyNode = nodo
+            return self.topDown(nodo.padre)

@@ -11,6 +11,7 @@ class Menu(BoxLayout):
 
     def buttonGoAction(self, instance):
         self.control.startDebugging()
+        self.ids.buttonGo.disabled = True
 
     def buttonExitAction(self, instance):
         exit()
