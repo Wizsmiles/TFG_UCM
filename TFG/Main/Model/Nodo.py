@@ -1,6 +1,5 @@
 from enum import Enum
 from copy import deepcopy
-import sys
 import time
 
 
@@ -13,13 +12,14 @@ class Estado(Enum):
     CONFIAR = 4
     INACEPTABLE = 5
     DESCONOCIDO = 6
+    
 
 class Nodo():
-    
+
     #Constructor
     def __init__(self):
         global contador
-            
+
         self.id = contador
         contador += 1
         self.nFuncion = None
@@ -37,10 +37,10 @@ class Nodo():
 
     def getParamsEntrada(self):
         return self.paramsEntrada
-    
+
     def setParamsMods(self, params):
         self.paramsModificados = deepcopy(params)
-        
+
     def getParamsMods(self):
         return self.paramsModificados
 
@@ -60,17 +60,17 @@ class Nodo():
         else:
             aux = self.hijos[len(self.hijos)-1]
             aux.insertarValores(valor, nivel, nActual + 1)
-            
+
     def insertarParamsMods(self, params, nivel):
         self.insertarParamsModificados(params, nivel, 1)
-        
-    def insertarParamsModificados(self, params, nivel, nActual):   
+
+    def insertarParamsModificados(self, params, nivel, nActual):
         if nActual == nivel:
             self.setParamsMods(params)
         else:
             aux = self.hijos[len(self.hijos)-1]
             aux.insertarParamsModificados(params, nivel, nActual + 1)
-            
+
     #Gestion del nombre de la funcion del nodo
     def setNombre(self, nombre):
         self.nFuncion = nombre
@@ -125,7 +125,7 @@ class Nodo():
 
         elif len(nodoBusqueda.paramsEntrada) == len(self.paramsEntrada) and nodoBusqueda.getValor() == self.getValor() and nodoBusqueda.getNombre() == self.getNombre():
             ok = True
-            
+
             if len(nodoBusqueda.paramsEntrada) > 0 :
                 for clave in nodoBusqueda.paramsEntrada:
                     self.comprobarParams(ok, clave, self.paramsEntrada, nodoBusqueda.paramsEntrada)
@@ -137,7 +137,7 @@ class Nodo():
                             ok = False
                     else:
                         ok = False
-                        
+
                     if clave in self.paramsModificados:
                         if self.paramsModificados.get(clave) != nodoBusqueda.paramsModificados.get(clave):
                             ok = False
@@ -165,7 +165,7 @@ class Nodo():
                 ok = False
         else:
             ok = False
-        
+
 
     # PENDIENTE DE REVISION POR SERGIO
     # Una vez creado el arbol, se recorre buscando nodos con hijos recursivos para fusionarlos y reducir el tamanyo final

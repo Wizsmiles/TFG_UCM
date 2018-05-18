@@ -3,53 +3,63 @@ import View.Interface as Interface
 from Model.Answer import Answer
 from Model.Recorridos import Estrategia
 from Model.Nodo import Estado
+from Model.RecorridosGUI import RecorridoGUI
+from View.View import TreeView
 
 
 class Controller:
 
     def __init__(self, tree, graphics):
         self.tree = tree
+        self.tree.estado = Estado.ERROR
         self.graphics = graphics
+        self.estrategia = Estrategia.TOPDOWN
 
     def run(self):
         if self.graphics:
             Interface.initGUI(self.tree, self)
         else:
+            print(self.graphics)
             recorrido = Recorridos.Recorrido(self.tree, self.graphics, self)
             recorrido.inicializarTD()
 
     def startDebugging(self):
-        self.recorrido = Recorridos.Recorrido(self.tree, self.graphics, self)
+        self.recorrido = RecorridoGUI()
         Interface.updateNodes()
-        Interface.setSelected(self.recorrido.inicializarTD())
+        Interface.setSelected(self.recorrido.topDown(self.tree))
 
     def answerGUI(self, node, answer):
         estado = Estado.INDEFINIDO
+        nextNode = node
 
         if answer == Answer.YES:
             estado = Estado.VALIDO
+            nextNode = node.padre
         elif answer == Answer.NO:
             estado = Estado.ERROR
         elif answer == Answer.TRUST:
             estado = Estado.CONFIAR
+            nextNode = node.padre
         elif answer == Answer.UNACCEPTABLE:
             estado = Estado.INACEPTABLE
+            nextNode = node.padre
         elif answer == Answer.DONTKNOW:
             estado = Estado.DESCONOCIDO
+            self.recorrido.desconocidos.append(node)
 
         node.estado = estado
         self.tree.recorrerNodos(node)
         Interface.updateNodes()
         Interface.setUnselected(node)
 
-        if node.estado == Estado.VALIDO or node.estado == Estado.CONFIAR or node.estado == Estado.INACEPTABLE:
-            nextNode = self.tree
-        else:
-            nextNode = node
+        if(self.estrategia == Estrategia.TOPDOWN):
+            nodeToSelect = self.recorrido.topDown(nextNode)
+        # elif(self.estrategia == Estrategia.HEAVIESTFIRST):
+        #     Interface.setSelected(self.recorrido.heaviestFirst(nextNode))
+        # elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
+        #     Interface.setSelected(self.recorrido.divideAndQuery(nextNode))
 
-        if(self.recorrido.estrategia == Estrategia.TOPDOWN):
-            Interface.setSelected(self.recorrido.topDown(nextNode))
-        elif(self.recorrido.estrategia == Estrategia.HEAVIESTFIRST):
-            Interface.setSelected(self.recorrido.heaviestFirst(nextNode))
-        elif(self.recorrido.estrategia == Estrategia.DIVIDEANDQUERY):
-            Interface.setSelected(self.recorrido.divideAndQuery(nextNode))
+        if self.recorrido.buggy:
+            TreeView.show(self.tree)
+        else:
+            Interface.setSelected(nodeToSelect)

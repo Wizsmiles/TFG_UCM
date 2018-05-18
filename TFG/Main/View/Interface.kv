@@ -1,10 +1,16 @@
 <CustomTreeNode>:
+  size: self.width, self.ids.labelName.height+self.ids.labelReturn.height
   BoxLayout:
     orientation: 'vertical'
     Label:
+      size: self.texture_size[0], self.texture_size[1]
+      text_size: self.width, None
       id: labelName
       text: 'Nombre funcion'
     Label:
+      size: self.texture_size[0], self.texture_size[1]
+      haling: 'left'
+      text_size: self.width, None
       id: labelReturn
       text: 'Valor retornado: '
 
@@ -41,6 +47,12 @@
 
 
 <Menu>:
+  canvas:
+    Color:
+      rgb: 0.4,0.4,0.4
+    Rectangle:
+      size: self.size
+      pos: self.pos
   size_hint: 1,0.2
   GridLayout:
     size_hint: .25,1
@@ -61,3 +73,4 @@
   BoxLayout:
     Label:
       text: 'La funcion buggy es: ____'
+      color: 1,1,1,1

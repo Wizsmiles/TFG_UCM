@@ -2,7 +2,6 @@ import Model.Nodo as Nodo
 from enum import Enum
 import sys
 import View.View as View
-import copy
 
 class Estrategia(Enum):
     TOPDOWN = 1
@@ -28,6 +27,7 @@ class Recorrido():
         self.estrategia = Estrategia.TOPDOWN
         return self.topDown(self.arbol)
         self.ended = True
+        print(self.graphics)
 
     def topDown(self, nodo):
         if len(nodo.hijos) != 0 and nodo.estado != Nodo.Estado.VALIDO and nodo.estado != Nodo.Estado.CONFIAR and nodo.estado != Nodo.Estado.INACEPTABLE:

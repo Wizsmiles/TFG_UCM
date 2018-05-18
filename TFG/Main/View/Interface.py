@@ -4,6 +4,7 @@ from kivy.uix.scrollview import ScrollView
 from View.CustomTreeNode import CustomTreeNode
 from View.Menu import Menu
 from Model.Nodo import Nodo
+from Model.Nodo import Estado
 from kivy.uix.boxlayout import BoxLayout
 from kivy.config import Config
 
@@ -110,6 +111,8 @@ def updateNodes():
     for ctn in tv.iterate_all_nodes(tv.root):
         if isinstance(ctn, CustomTreeNode):
             ctn.updateNode()
+            if ctn.is_open and (ctn.node.estado == Estado.VALIDO or ctn.node.estado == Estado.CONFIAR or ctn.node.estado == Estado.INACEPTABLE):
+                tv.toggle_node(ctn)
 
 
 def initGUI(arbol, controlador):
