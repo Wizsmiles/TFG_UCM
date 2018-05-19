@@ -4,7 +4,6 @@ from Model.Answer import Answer
 from Model.Recorridos import Estrategia
 from Model.Nodo import Estado
 from Model.RecorridosGUI import RecorridoGUI
-from View.View import TreeView
 
 class Controller:
 
@@ -20,7 +19,7 @@ class Controller:
             Interface.initGUI(self.tree, self)
         else:
             print(self.graphics)
-            recorrido = Recorridos.Recorrido(self.tree, self.graphics, self)
+            recorrido = Recorridos.Recorrido(self.tree)
             recorrido.inicializarTD()
 
     def startDebugging(self):
