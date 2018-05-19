@@ -9,7 +9,7 @@ class Estrategia(Enum):
     DIVIDEANDQUERY = 3
 
 class Recorrido():
-    def __init__(self, tree, graphics, controller):
+    def __init__(self, tree):
         self.arbol = tree
         self.estrategia = Estrategia.TOPDOWN
         self.arbol.estado = Nodo.Estado.ERROR
@@ -18,19 +18,15 @@ class Recorrido():
         self.buggy = False
         self.buggyDN = False
         self.nodoBuggy = Nodo.Nodo()
-        self.graphics = graphics
-        self.controller = controller
 
         #####################TOPDOWN###################
 
     def inicializarTD(self):
-        self.estrategia = Estrategia.TOPDOWN
-        return self.topDown(self.arbol)
+        self.topDown(self.arbol)
         self.ended = True
-        print(self.graphics)
 
     def topDown(self, nodo):
-        if len(nodo.hijos) != 0 and nodo.estado != Nodo.Estado.VALIDO and nodo.estado != Nodo.Estado.CONFIAR and nodo.estado != Nodo.Estado.INACEPTABLE:
+        if len(nodo.hijos) != 0:
             validos = 0
 
 
@@ -82,8 +78,7 @@ class Recorrido():
         ################################HEAVIESTFIRST####################################
 
     def inicializarHF(self):
-        self.estrategia = Estrategia.HEAVIESTFIRST
-        return self.heaviestFirst(self.arbol)
+        self.heaviestFirst(self.arbol)
         self.ended = True
 
     def heaviestFirst(self, nodo):
@@ -121,10 +116,7 @@ class Recorrido():
                 while(found==False):
                     if nodo.hijos[j].nNodos == max(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
-                        if(not self.graphics):
-                            self.ask(nodo.hijos[j])
-                        else:
-                            return self.askGUI(nodo.hijos[j])
+                        self.ask(nodo.hijos[j])
                         if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                             self.desconocidos.append(nodo.hijos[j])
 
@@ -172,8 +164,7 @@ class Recorrido():
 
 ###################################DIVIDEANDQUERY############################
     def inicializarDQ(self):
-        self.estrategia = Estrategia.DIVIDEANDQUERY
-        return self.divideAndQuery(self.arbol)
+        self.divideAndQuery(self.arbol)
         self.ended = True
 
     def divideAndQuery(self, nodo):
@@ -210,10 +201,7 @@ class Recorrido():
 
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
-                        if(not self.graphics):
-                            self.ask(nodo.hijos[j])
-                        else:
-                            return self.askGUI(nodo.hijos[j])
+                        self.ask(nodo.hijos[j])
                         if nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                             self.desconocidos.append(nodo.hijos[j])
 
@@ -316,8 +304,6 @@ class Recorrido():
             #    self.nodoBuggy = nodo
             #    self.buggyMsj()
 
-    def askGUI(self, nodo):
-        return nodo
 
     def buggyMsj(self):
         if self.nodoBuggy.estado == Nodo.Estado.DESCONOCIDO:
@@ -352,10 +338,7 @@ class Recorrido():
                     i.estado = i.padre.estado
                     self.desconocidos.pop(j)
                 else :
-                    if(not self.graphics):
-                        self.ask(i)
-                    else:
-                        return self.askGUI(i)
+                    self.ask(i)
                     if i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                         self.desconocidos.pop(j)
                         if(self.estrategia == Estrategia.TOPDOWN):
