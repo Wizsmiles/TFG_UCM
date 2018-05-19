@@ -6,10 +6,9 @@ from View.Menu import Menu
 from Model.Nodo import Nodo
 from Model.Nodo import Estado
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from kivy.uix.popup import Popup
-from kivy.uix.label import Label
+from View.DKPopup import DKPopup
 
 
 Config.set('graphics', 'width', '800')
@@ -22,6 +21,7 @@ tv = TreeView(
     hide_root=True,
     indent_level=20
 )
+
 
 
 def populate_tree_view(parent, node):
@@ -60,6 +60,9 @@ def buildStringNameLabel(node):
 
 class MainFrame(BoxLayout):
     def __init__(self, **kwargs):
+        global menu
+        menu = Menu(controller)
+
         super(MainFrame, self).__init__(**kwargs)
         self.orientation = 'vertical'
         tv.size_hint = 1, None
@@ -68,7 +71,7 @@ class MainFrame(BoxLayout):
         populate_tree_view(None, tree)
         sv.add_widget(tv)
         self.add_widget(sv)
-        self.add_widget(Menu(controller))
+        self.add_widget(menu)
 
 
 class InterfaceApp(App):
@@ -118,24 +121,32 @@ def updateNodes():
                 tv.toggle_node(ctn)
 
 
-class DKPopup(GridLayout):
-
-	def __init__(self,**kwargs):
-		self.register_event_type('on_answer')
-		super(DKPopup,self).__init__(**kwargs)
-
-	def on_answer(self, *args):
-		pass
-
 
 def askDK():
-    content = DKPopup()
-    popup = Popup(title="Answer Question",
+    global popup
+    content = DKPopup(controller)
+    popup = Popup(title="Nodos DESCONOCIDOS",
 							content=content,
 							size_hint=(None, None),
-							size=(480,400),
+							size=(520,200),
 							auto_dismiss= False)
+    content.ids.labelInfoDK.text = 'Todav\u00eda quedan nodos con estado DESCONOCIDO.\n'
+    content.ids.labelInfoDK.text += 'Hay una alta probabilidad de que el nodo buggy se encuentre entre ellos.\n'
+    content.ids.labelInfoDK.text += '¿Le gustaría volver a revisarlos?'
+
     popup.open()
+
+
+def dismissDK():
+    global popup
+    popup.dismiss()
+
+
+def showBuggyFunction(name, params, namedk, paramsdk):
+    menu.ids.labelBuggyFunction.text += name + ' ' + params.replace('{','( ').replace('}',' )')
+    if namedk != None:
+        menu.ids.labelBuggyFunction.text += '\nPero hay una alta probabilidad de que tambien lo sea: '
+        menu.ids.labelBuggyFunction.text += namedk + ' ' + paramsdk.replace('{','( ').replace('}',' )')
 
 
 def initGUI(arbol, controlador):

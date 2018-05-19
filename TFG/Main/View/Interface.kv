@@ -19,26 +19,26 @@
       orientation: 'vertical'
       Button:
         id: buttonYes
-        text: 'yes'
+        text: 'V\u00e1lido'
         disabled: True
       Button:
         id: buttonNo
-        text: 'no'
+        text: 'Error'
         disabled: True
 
     BoxLayout:
       orientation: 'vertical'
       Button:
         id: buttonTrust
-        text: "trust"
+        text: "Confiar"
         disabled: True
       Button:
         id: buttonUnacceptable
-        text: "unacceptable"
+        text: "Inaceptable"
         disabled: True
       Button:
         id: buttonDontKnow
-        text: "don't know"
+        text: "Desconocido"
         disabled: True
 
   Label:
@@ -72,21 +72,22 @@
 
   BoxLayout:
     Label:
-      text: 'La funcion buggy es: ____'
+      id: labelBuggyFunction
+      text: 'La funcion buggy es: '
       color: 1,1,1,1
 
 
 <DKPopup>:
   cols:1
   Label:
-    text: 'hola'
+    id: labelInfoDK
   GridLayout:
     cols: 2
     size_hint_y: None
     height: '44sp'
     Button:
-      text: 'Yes'
-      on_release: root.dispatch('on_answer','yes')
+      id: buttonAccept
+      text: 'Aceptar'
     Button:
-      text: 'No'
-      on_release: root.dispatch('on_answer', 'no')
+      id: buttonCancel
+      text: 'Cancelar'

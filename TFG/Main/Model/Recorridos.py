@@ -43,10 +43,7 @@ class Recorrido():
                     break
                 ##elif i.estado == Nodo.Estado.DESCONOCIDO:
                 elif i.estado == Nodo.Estado.INDEFINIDO:
-                    if(not self.graphics):
-                        self.ask(i)
-                    else:
-                        return i
+                    self.ask(i)
                     if i.estado == Nodo.Estado.DESCONOCIDO:
                         self.desconocidos.append(i)
                     elif(i.estado == Nodo.Estado.ERROR):

@@ -13,6 +13,7 @@ class Controller:
         self.tree.estado = Estado.ERROR
         self.graphics = graphics
         self.estrategia = Estrategia.TOPDOWN
+        self.revisarDK = False
 
     def run(self):
         if self.graphics:
@@ -51,16 +52,44 @@ class Controller:
         Interface.updateNodes()
         Interface.setUnselected(node)
 
-        if(self.estrategia == Estrategia.TOPDOWN):
-            nodeToSelect = self.recorrido.topDown(nextNode)
-        # elif(self.estrategia == Estrategia.HEAVIESTFIRST):
-        #     Interface.setSelected(self.recorrido.heaviestFirst(nextNode))
-        # elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
-        #     Interface.setSelected(self.recorrido.divideAndQuery(nextNode))
-
-        if self.recorrido.buggy and not self.recorrido.desconocidos:
-            TreeView.show(self.tree)
-        elif self.recorrido.buggy and self.recorrido.desconocidos:
-            Interface.askDK()
+        if self.revisarDK:
+            self.handleDK(True)
         else:
+            if(self.estrategia == Estrategia.TOPDOWN):
+                nodeToSelect = self.recorrido.topDown(nextNode)
+            # elif(self.estrategia == Estrategia.HEAVIESTFIRST):
+            #     Interface.setSelected(self.recorrido.heaviestFirst(nextNode))
+            # elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
+            #     Interface.setSelected(self.recorrido.divideAndQuery(nextNode))
+
+        if self.recorrido.buggy:
+            self.recorrido.getDeepestError(self.tree)
+            Interface.showBuggyFunction(self.recorrido.buggyNode.getNombre(), str(self.recorrido.buggyNode.getParamsEntrada()), None, None)
+        elif self.recorrido.dk and not self.isLastBuggy() and not self.revisarDK:
+            Interface.askDK()
+        elif not self.revisarDK:
             Interface.setSelected(nodeToSelect)
+
+
+    def isLastBuggy(self):
+        buggy = True
+
+        for i in self.recorrido.buggyNode.hijos:
+            if i.estado == Estado.DESCONOCIDO:
+                buggy = False
+
+        return buggy
+
+    def handleDK(self, boolean):
+        Interface.dismissDK()
+        if boolean:
+            self.revisarDK = True
+            Interface.setSelected(self.recorrido.revisarDK())
+        else:
+            self.recorrido.getDeepestError(self.tree)
+            self.recorrido.getDeepestDK(self.recorrido.buggyNode)
+
+            buggyNode = self.recorrido.buggyNode
+            buggyDKNode = self.recorrido.buggyDKNode
+
+            Interface.showBuggyFunction(buggyNode.getNombre(), str(buggyNode.getParamsEntrada()), buggyDKNode.getNombre(), str(buggyDKNode.getParamsEntrada()))
