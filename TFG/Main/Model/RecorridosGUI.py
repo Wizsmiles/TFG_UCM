@@ -19,7 +19,7 @@ class RecorridoGUI():
                 if i.estado == Estado.ERROR:
                     self.topDown(i)
                     break
-                if i.estado == Estado.VALIDO:
+                if i.estado == Estado.VALIDO or i.estado == Estado.CONFIAR or i.estado == Estado.INACEPTABLE:
                     validos = validos + 1
 
         if nodo.estado == Estado.ERROR:
@@ -31,6 +31,63 @@ class RecorridoGUI():
             if validos == len(nodo.hijos):
                 self.dk = True
             return self.topDown(nodo.padre)
+
+    def heaviestFirst(self, nodo):
+        descendientes = []
+        validos = 0
+
+        if len(nodo.hijos) != 0 and (nodo.estado == Estado.ERROR or nodo.estado == Estado.DESCONOCIDO):
+            for i in nodo.hijos:
+                if i.estado == Estado.INDEFINIDO:
+                    descendientes.append(i.nNodos)
+                elif i.estado == Estado.VALIDO or i.estado == Estado.CONFIAR or i.estado == Estado.INACEPTABLE:
+                    validos = validos + 1
+
+        if nodo.estado == Estado.ERROR or nodo.estado == Estado.DESCONOCIDO:
+            if len(descendientes) != 0:
+                for i in nodo.hijos:
+                    if i.nNodos == max(descendientes) and i.estado == Estado.INDEFINIDO:
+                        return i
+
+        if nodo.estado == Estado.ERROR:
+            self.buggyNode = nodo
+
+            if validos == len(nodo.hijos):
+                self.buggy = True
+
+        elif nodo.estado == Estado.DESCONOCIDO:
+            if validos == len(nodo.hijos):
+                self.dk = True
+            return self.heaviestFirst(nodo.padre)
+
+    def divideAndQuery(self, nodo):
+        descendientes = []
+        validos = 0
+
+        if len(nodo.hijos) != 0 and (nodo.estado == Estado.ERROR or nodo.estado == Estado.DESCONOCIDO):
+            for i in nodo.hijos:
+                if i.estado == Estado.INDEFINIDO:
+                    descendientes.append(abs(nodo.nNodos/2 - i.nNodos))
+                elif i.estado == Estado.VALIDO or i.estado == Estado.CONFIAR or i.estado == Estado.INACEPTABLE:
+                    validos = validos + 1
+
+        if nodo.estado == Estado.ERROR or nodo.estado == Estado.DESCONOCIDO:
+            if len(descendientes) != 0:
+                for i in nodo.hijos:
+                    n = abs(nodo.nNodos/2 - i.nNodos)
+                    if n == min(descendientes) and i.estado == Estado.INDEFINIDO:
+                        return i
+
+        if nodo.estado == Estado.ERROR:
+            self.buggyNode = nodo
+
+            if validos == len(nodo.hijos):
+                self.buggy = True
+
+        elif nodo.estado == Estado.DESCONOCIDO:
+            if validos == len(nodo.hijos):
+                self.dk = True
+            return self.heaviestFirst(nodo.padre)
 
     def revisarDK(self):
         self.buggy = False

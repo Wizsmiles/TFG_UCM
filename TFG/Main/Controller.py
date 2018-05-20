@@ -25,7 +25,12 @@ class Controller:
     def startDebugging(self):
         self.recorrido = RecorridoGUI()
         Interface.updateNodes()
-        Interface.setSelected(self.recorrido.topDown(self.tree))
+        if(self.estrategia == Estrategia.TOPDOWN):
+            Interface.setSelected(self.recorrido.topDown(self.tree))
+        elif(self.estrategia == Estrategia.HEAVIESTFIRST):
+            Interface.setSelected(self.recorrido.heaviestFirst(self.tree))
+        elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
+            Interface.setSelected(self.recorrido.divideAndQuery(self.tree))
 
     def answerGUI(self, node, answer):
         estado = Estado.INDEFINIDO
@@ -56,10 +61,10 @@ class Controller:
         else:
             if(self.estrategia == Estrategia.TOPDOWN):
                 nodeToSelect = self.recorrido.topDown(nextNode)
-            # elif(self.estrategia == Estrategia.HEAVIESTFIRST):
-            #     Interface.setSelected(self.recorrido.heaviestFirst(nextNode))
-            # elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
-            #     Interface.setSelected(self.recorrido.divideAndQuery(nextNode))
+            elif(self.estrategia == Estrategia.HEAVIESTFIRST):
+                nodeToSelect = self.recorrido.heaviestFirst(nextNode)
+            elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
+                nodeToSelect = self.recorrido.divideAndQuery(nextNode)
 
         if self.recorrido.buggy:
             self.recorrido.getDeepestError(self.tree)
@@ -92,3 +97,7 @@ class Controller:
             buggyDKNode = self.recorrido.buggyDKNode
 
             Interface.showBuggyFunction(buggyNode.getNombre(), str(buggyNode.getParamsEntrada()), buggyDKNode.getNombre(), str(buggyDKNode.getParamsEntrada()))
+
+    def swapStrategy(self, strategy):
+        self.estrategia = strategy
+        print(self.estrategia)

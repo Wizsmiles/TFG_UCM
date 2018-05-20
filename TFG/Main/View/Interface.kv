@@ -56,19 +56,34 @@
   size_hint: 1,0.2
   GridLayout:
     size_hint: .25,1
-    cols: 2
+    rows: 2
+    cols: 1
     AnchorLayout:
       anchor_x: 'right'
-      Button:
-        size_hint: .75,.5
-        id: buttonGo
-        text: 'Debug'
+      anchor_y: 'bottom'
+      GridLayout:
+        size_hint: .9,.75
+        cols: 2
+        AnchorLayout:
+          anchor_x: 'left'
+          anchor_y: 'top'
+          Button:
+            size_hint: .98,.95
+            id: buttonGo
+            text: 'Debug'
+        AnchorLayout:
+          anchor_x: 'right'
+          anchor_y: 'top'
+          Button:
+            size_hint: .98,.95
+            id: buttonExit
+            text: 'Salir'
     AnchorLayout:
       anchor_x: 'right'
-      Button:
-        size_hint: .75,.5
-        id: buttonExit
-        text: 'Salir'
+      anchor_y: 'top'
+      Spinner:
+        id: spinnerEstrategia
+        size_hint: .9,.75
 
   BoxLayout:
     Label:
