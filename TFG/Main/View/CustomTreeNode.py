@@ -31,8 +31,12 @@ class CustomTreeNode(BoxLayout, TreeViewNode):
     def paramsToString(self):
         st = " (\n"
         cont = 0
-        for key, value in self.node.getParamsEntrada().items():
-            st += "     " + str(key) + ": " + str(value) + "\n"
+
+        paramsEntrada = self.node.getParamsEntrada()
+        paramsSalida = self.node.getParamsMods()
+
+        for i in paramsEntrada.keys():
+            st += "     " + i + ": " + paramsEntrada[i] + " -> " + paramsSalida[i] + "\n"
             cont += 1
         st += ")"
 
