@@ -100,4 +100,3 @@ class Controller:
 
     def swapStrategy(self, strategy):
         self.estrategia = strategy
-        print(self.estrategia)
