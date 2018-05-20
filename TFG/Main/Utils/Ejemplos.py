@@ -134,7 +134,7 @@ def myMergeSort():
     mergeSort(array)
 
     for element in array:
-        print(element + "\n")
+        print(str(element) + "\n")
 
 def mergeSort(m):
     if len(m) <= 1:
