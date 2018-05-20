@@ -8,10 +8,10 @@ class TreeView():
     @staticmethod
     def show(nodo):
         colorInit()
-        TreeView.recursiveShow(nodo, 0, True)
+        TreeView.recursiveShow(nodo, 0)
 
     @staticmethod
-    def recursiveShow(nodo, nivel, first):
+    def recursiveShow(nodo, nivel):
         for i in range(0, nivel):
             print('\t', end='', flush=True)
 
@@ -37,12 +37,9 @@ class TreeView():
         nivel = nivel + 1
 
         if len(nodo.hijos) != 0:
-            first = True
-
             for i in nodo.hijos:
                 if i.padre.estado ==  Nodo.Estado.ERROR or i.padre.estado ==  Nodo.Estado.DESCONOCIDO or i.padre.estado ==  Nodo.Estado.INDEFINIDO:
-                    TreeView.recursiveShow(i, nivel, first)
-                    first = False
+                    TreeView.recursiveShow(i, nivel)
                 print(Style.RESET_ALL, end='', flush=True)
         else:
             print(Style.RESET_ALL, end='', flush=True)

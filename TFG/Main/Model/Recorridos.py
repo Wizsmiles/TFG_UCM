@@ -249,21 +249,20 @@ class Recorrido():
 
 
     def ask(self, nodo):
-
-            nb=""
-            while(nb!="y" and nb!="n" and nb!="t"  and nb!="i"  and nb!="d"):
-                View.TreeView.show(self.arbol)
-                print("Soy la funcion:", nodo.getNombre())
-                print("Mi Id es:", nodo.id)
-                print("Num hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
-                print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
-                print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor())
-                nb = input("It's correct?(y/n) (press t/i/d --- t for trust/i for unnacceptable/d for don't know): \n (You can swap your strategy pressing e)")
-                print(nb)
-                if(nb == "e"):
-                    while(nb!="td" and nb!="hf" and nb!="dq"):
-                        nb = input("Select your strategy td(TOPDOWN)/hf(HEAVIESTFIRST)/dq(DIVIDEANDQUERY)")
-                        print(nb)
+        nb = ""
+        while(nb!="s" and nb!="n" and nb!="c"  and nb!="i"  and nb!="d"):
+            View.TreeView.show(self.arbol)
+            print("Nombre de función:", nodo.getNombre())
+            print("ID de la función:", nodo.id)
+            print("El número de hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
+            print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
+            print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor(), '\n')
+            nb = input("(Pulsa c/i/d --- c: confiar / i: inaceptable / d: desconocido)\n(Puedes cambiar de estrategia pulsando e)\n¿Es correcto?(s/n): ")
+            # print(nb)
+            if(nb == "e"):
+                while(nb!="td" and nb!="hf" and nb!="dq"):
+                    print("\nEstas son las estrategias disponibles:")
+                    nb = input(" - td (TOPDOWN)\n - hf (HEAVIESTFIRST)\n - dq (DIVIDEANDQUERY)\nSelecciona tu estrategia:")
                     if(nb == "td"):
                         self.estrategia = Estrategia.TOPDOWN
                         self.topDown(nodo.padre)
@@ -276,10 +275,13 @@ class Recorrido():
                         self.estrategia = Estrategia.DIVIDEANDQUERY
                         self.divideAndQuery(nodo.padre)
 
-            if(nb == "y"):
+                    else:
+                        print("\nERROR: '" + nb + "' no se corresponde con ninguna de las estrategias.")
+
+            if(nb == "s"):
                 nodo.estado = Nodo.Estado.VALIDO
                 self.arbol.recorrerNodos(nodo);
-            elif(nb == "t"):
+            elif(nb == "c"):
                 nodo.estado = Nodo.Estado.CONFIAR
                 self.arbol.recorrerNodos(nodo);
             elif(nb == "i"):
@@ -299,22 +301,20 @@ class Recorrido():
                     self.heaviestFirst(nodo)
                 if(self.estrategia == Estrategia.DIVIDEANDQUERY):
                     self.divideAndQuery(nodo)
-
-            #if(self.buggy):
-            #    self.nodoBuggy = nodo
-            #    self.buggyMsj()
+            else:
+                print("\nERROR: el comando '" + nb + "' no se corresponde con ninguna de las opciones disponibles.")
 
 
     def buggyMsj(self):
         if self.nodoBuggy.estado == Nodo.Estado.DESCONOCIDO:
-            print("Hay una alta posibilidad de que el nodo buggy sea:", self.nodoBuggy.getNombre())
+            print("Hay una alta posibilidad de que la función buggy sea:", self.nodoBuggy.getNombre())
             print("Su valor retornado es:", self.nodoBuggy.getValor())
             View.TreeView.show(self.arbol)
             nb=""
             while(nb!="y" and nb!="n"):
-                nb = input("¿Quieres revisar los nodos Desconocidos?(y/n)")
+                nb = input("¿Quieres revisar los nodos desconocidos?(s/n)")
                 print(nb)
-                if(nb == "y"):
+                if(nb == "s"):
                     while(len(self.desconocidos) > 0):
                         self.revisarDK()
                 elif(nb == "n"):
@@ -322,7 +322,7 @@ class Recorrido():
 
 
         else:
-            print("Buggy en la funcion:", self.nodoBuggy.getNombre())
+            print("Buggy en la función:", self.nodoBuggy.getNombre())
             print("Valor retornado es:", self.nodoBuggy.getValor())
             View.TreeView.show(self.arbol)
             sys.exit()
