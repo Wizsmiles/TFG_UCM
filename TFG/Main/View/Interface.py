@@ -37,26 +37,7 @@ def populate_tree_view(parent, node):
 
     for child_node in node.hijos:
         populate_tree_view(tree_node, child_node)
-
-
-def buildStringNameLabel(node):
-    nameLabel = node.getNombre()
-    nameLabel += ' ( )\n'
-
-    nameLabel += '  Parámetros entrada:\n'
-    for key, value in node.getParamsEntrada().items():
-        nameLabel += '      - ' + str(key) + ': ' + str(value) + '\n'
-
-    if len(node.getParamsEntrada()) >= 1:
-        nameLabel = nameLabel[:-1]
-
-    nameLabel += '\n  Parámetros salida:\n'
-
-    for key, value in node.getParamsMods().items():
-        nameLabel += '      - ' + str(key) + ': ' + str(value) + '\n'
-
-    return nameLabel
-
+        
 
 class MainFrame(BoxLayout):
     def __init__(self, **kwargs):

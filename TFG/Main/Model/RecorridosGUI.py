@@ -117,6 +117,5 @@ class RecorridoGUI():
         if node.estado == Estado.DESCONOCIDO or node.estado == Estado.ERROR:
             self.buggyDKNode = node
             for i in node.hijos:
-                print(i.getNombre())
                 if i.estado == Estado.DESCONOCIDO:
                     self.getDeepestDK(i)
