@@ -54,13 +54,8 @@ sys.path.insert(0, folder)
 file = fileArray[len(fileArray)-1]
 file = file.split('.')[0]
 
-
-def getArbol():
-    return arbol
-
-
 def trace_calls(frame, event, arg):
-    global wait, cont, contWait
+    global wait, cont, contWait, arbol
 
     co = frame.f_code
     f_name = co.co_name
@@ -115,10 +110,6 @@ def trace_calls(frame, event, arg):
 command = "from " + file + " import " + function + " as func"
 exec(command)
 
-# prueba = "Utils.Ejemplos"
-# prueba2 = "ejemplo1"
-# exec("from " + prueba + " import " + prueba2 + " as prueba3")
-
 tr = sys.gettrace()  # Guardo la traza original del programa
 sys.settrace(trace_calls)  # Traceo la ejecucion del programa
 
@@ -132,13 +123,6 @@ sys.settrace(tr)  # Cargo la traza original guardada
 if fusion:
     arbol.fusionNodos()
 arbol.calcularPeso()
-# Tras retornar la traza original del programa calculo el nNodos de cada nodo
 
-# if graphics:
-#     import View.Interface as Interface
-#     Interface.initGUI(arbol)
-# else:
-#     recorrido = Recorridos.Recorrido(arbol)
-#     recorrido.inicializarDQ()
 controller = Controller(arbol, graphics)
 controller.run()
