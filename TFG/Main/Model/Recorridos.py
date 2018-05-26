@@ -6,7 +6,7 @@ import View.View as View
 class Estrategia(Enum):
     TOPDOWN = 1
     HEAVIESTFIRST = 2
-    DIVIDEANDQUERY = 3
+    DIVIDEHALF = 3
 
 class Recorrido():
     def __init__(self, tree):
@@ -91,10 +91,6 @@ class Recorrido():
                 if i.estado == Nodo.Estado.INDEFINIDO:
                     descendientes.append(i.nNodos)
 
-            ##    elif i.estado == Nodo.Estado.DESCONOCIDO:
-            ##        if self.ended:
-            ##            descendientes.append(i.nNodos)
-
                 elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                     validos = validos+1
 
@@ -146,12 +142,6 @@ class Recorrido():
                         else:
                             print(self.arbol.nNodos)
                             self.heaviestFirst(self.arbol)
-                        # if(self.buggy == False):
-                            # self.heaviestFirst(nodo)
-                        # else:
-                            # self.nodoBuggy = nodo
-                            # self.buggy = True
-                            # self.buggyMsj()
                     j=j+1;
         else:
             self.nodoBuggy = nodo
@@ -162,12 +152,12 @@ class Recorrido():
 
 
 
-###################################DIVIDEANDQUERY############################
-    def inicializarDQ(self):
-        self.divideAndQuery(self.arbol)
+###################################DIVIDEHALF############################
+    def inicializarDAH(self):
+        self.DIVIDEHALF(self.arbol)
         self.ended = True
 
-    def divideAndQuery(self, nodo):
+    def DIVIDEHALF(self, nodo):
         if len(nodo.hijos) != 0:
             descendientes = []
             validos = 0
@@ -206,7 +196,7 @@ class Recorrido():
                             self.desconocidos.append(nodo.hijos[j])
 
                         if(nodo.hijos[j].estado == Nodo.Estado.VALIDO or nodo.hijos[j].estado == Nodo.Estado.CONFIAR or nodo.hijos[j].estado == Nodo.Estado.INACEPTABLE or nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO):
-                            self.divideAndQuery(nodo)
+                            self.DIVIDEHALF(nodo)
                         else:
                             self.nodoBuggy = nodo
                             self.buggy = True
@@ -226,17 +216,17 @@ class Recorrido():
                     n = abs(nodo.nNodos/2 - nodo.hijos[j].nNodos)
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                         found = True
-                        self.divideAndQuery(nodo.hijos[j])
+                        self.DIVIDEHALF(nodo.hijos[j])
                         if self.arbol.nNodos == 1:
                             self.nodoBuggy = nodo.hijos[j]
                             self.buggy = True
                             self.buggyMsj()
                         else:
                             print(self.arbol.nNodos)
-                            self.divideAndQuery(self.arbol)
+                            self.DIVIDEHALF(self.arbol)
 
                         # if(self.buggy == False):
-                            # self.divideAndQuery(nodo)
+                            # self.DIVIDEHALF(nodo)
                         # else:
                         #     self.nodoBuggy = nodo
                         #     self.buggy = True
@@ -262,7 +252,7 @@ class Recorrido():
             if(nb == "e"):
                 while(nb!="td" and nb!="hf" and nb!="dq"):
                     print("\nEstas son las estrategias disponibles:")
-                    nb = input(" - td (TOPDOWN)\n - hf (HEAVIESTFIRST)\n - dq (DIVIDEANDQUERY)\nSelecciona tu estrategia:")
+                    nb = input(" - td (TOPDOWN)\n - hf (HEAVIESTFIRST)\n - dq (DIVIDEHALF)\nSelecciona tu estrategia:")
                     if(nb == "td"):
                         self.estrategia = Estrategia.TOPDOWN
                         self.topDown(nodo.padre)
@@ -272,8 +262,8 @@ class Recorrido():
                         self.heaviestFirst(nodo.padre)
 
                     elif(nb == "dq"):
-                        self.estrategia = Estrategia.DIVIDEANDQUERY
-                        self.divideAndQuery(nodo.padre)
+                        self.estrategia = Estrategia.DIVIDEHALF
+                        self.DIVIDEHALF(nodo.padre)
 
                     else:
                         print("\nERROR: '" + nb + "' no se corresponde con ninguna de las estrategias.")
@@ -299,8 +289,8 @@ class Recorrido():
                     self.topDown(nodo)
                 if(self.estrategia == Estrategia.HEAVIESTFIRST):
                     self.heaviestFirst(nodo)
-                if(self.estrategia == Estrategia.DIVIDEANDQUERY):
-                    self.divideAndQuery(nodo)
+                if(self.estrategia == Estrategia.DIVIDEHALF):
+                    self.DIVIDEHALF(nodo)
             else:
                 print("\nERROR: el comando '" + nb + "' no se corresponde con ninguna de las opciones disponibles.")
 
@@ -345,6 +335,6 @@ class Recorrido():
                             self.topDown(self.arbol)
                         if(self.estrategia == Estrategia.HEAVIESTFIRST):
                             self.heaviestFirst(self.arbol)
-                        if(self.estrategia == Estrategia.DIVIDEANDQUERY):
-                            self.divideAndQuery(self.arbol)
+                        if(self.estrategia == Estrategia.DIVIDEHALF):
+                            self.DIVIDEHALF(self.arbol)
             j = j+1

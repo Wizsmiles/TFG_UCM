@@ -29,8 +29,8 @@ class Controller:
             Interface.setSelected(self.recorrido.topDown(self.tree))
         elif(self.estrategia == Estrategia.HEAVIESTFIRST):
             Interface.setSelected(self.recorrido.heaviestFirst(self.tree))
-        elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
-            Interface.setSelected(self.recorrido.divideAndQuery(self.tree))
+        elif(self.estrategia == Estrategia.DIVIDEHALF):
+            Interface.setSelected(self.recorrido.divideHalf(self.tree))
 
     def answerGUI(self, node, answer):
         estado = Estado.INDEFINIDO
@@ -63,8 +63,8 @@ class Controller:
                 nodeToSelect = self.recorrido.topDown(nextNode)
             elif(self.estrategia == Estrategia.HEAVIESTFIRST):
                 nodeToSelect = self.recorrido.heaviestFirst(nextNode)
-            elif(self.estrategia == Estrategia.DIVIDEANDQUERY):
-                nodeToSelect = self.recorrido.divideAndQuery(nextNode)
+            elif(self.estrategia == Estrategia.DIVIDEHALF):
+                nodeToSelect = self.recorrido.divideHalf(nextNode)
 
         if self.recorrido.buggy:
             self.recorrido.getDeepestError(self.tree)

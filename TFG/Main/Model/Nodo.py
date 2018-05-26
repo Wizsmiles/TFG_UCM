@@ -131,19 +131,6 @@ class Nodo():
                     self.comprobarParams(ok, clave, self.paramsEntrada, nodoBusqueda.paramsEntrada)
                     if ok:
                         self.comprobarParams(ok, clave, self.paramsModificados, nodoBusqueda.paramsModificados)
-                    '''
-                    if clave in self.paramsEntrada :
-                        if self.paramsEntrada.get(clave) != nodoBusqueda.paramsEntrada.get(clave):
-                            ok = False
-                    else:
-                        ok = False
-
-                    if clave in self.paramsModificados:
-                        if self.paramsModificados.get(clave) != nodoBusqueda.paramsModificados.get(clave):
-                            ok = False
-                    else:
-                        ok = False
-                    '''
             if ok:
                 self.estado = nodoBusqueda.estado
 
