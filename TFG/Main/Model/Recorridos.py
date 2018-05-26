@@ -167,7 +167,26 @@ class Recorrido():
         self.divideAndQuery(self.arbol)
         self.ended = True
 
+    def searchHalfNode(self, nodo, halfNode):
+        weight = self.arbol.nNodos/2
+
+        if len(nodo.hijos) != 0:
+
+            for i in nodo.hijos:
+                if i.estado == Nodo.Estado.INDEFINIDO or i.estado == Nodo.Estado.ERROR:
+                    if abs(weight - i.nNodos) < abs(weight - halfNode.nNodos) and i.estado == Nodo.Estado.INDEFINIDO:
+                        halfNode = i
+
+                    halfNode = self.searchHalfNode(i, halfNode)
+
+        return halfNode
+
+
     def divideAndQuery(self, nodo):
+        print(self.arbol.nNodos/2)
+        print(self.searchHalfNode(self.arbol, self.arbol).getNombre())
+        print(self.searchHalfNode(self.arbol, self.arbol).nNodos)
+
         if len(nodo.hijos) != 0:
             descendientes = []
             validos = 0
@@ -254,7 +273,7 @@ class Recorrido():
             View.TreeView.show(self.arbol)
             print("Nombre de función:", nodo.getNombre())
             print("ID de la función:", nodo.id)
-            print("El número de hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos)
+            print("El número de hijos de '"+nodo.getNombre()+"' es:", nodo.nNodos-1)
             print("El estado de '"+nodo.getNombre()+"' es:", nodo.estado)
             print("Valor retornado por '"+nodo.getNombre()+"' es:", nodo.getValor(), '\n')
             nb = input("(Pulsa c/i/d --- c: confiar / i: inaceptable / d: desconocido)\n(Puedes cambiar de estrategia pulsando e)\n¿Es correcto?(s/n): ")
