@@ -41,7 +41,7 @@ class NodeBox(BoxLayout):
 
 
 class InterfaceApp(App):
-    title = "Buggy debugger"
+    title = "Debuggy"
 
     def build(self):
         return MainFrame()

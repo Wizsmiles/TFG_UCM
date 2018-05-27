@@ -9,7 +9,7 @@ class Menu(BoxLayout):
         self.control = controller
 
         self.ids.spinnerEstrategia.text = 'Estrategias'
-        self.ids.spinnerEstrategia.values = ('Top-Down','Heaviest First','Divide Half')
+        self.ids.spinnerEstrategia.values = ('Top-Down','Heaviest First','Half Down')
 
         self.ids.buttonGo.bind(on_press=self.buttonGoAction)
         self.ids.buttonExit.bind(on_release=self.buttonExitAction)
@@ -27,5 +27,5 @@ class Menu(BoxLayout):
             self.control.swapStrategy(Estrategia.TOPDOWN)
         elif text == 'Heaviest First':
             self.control.swapStrategy(Estrategia.HEAVIESTFIRST)
-        elif text == 'Divide Half':
-            self.control.swapStrategy(Estrategia.DIVIDEHALF)
+        elif text == 'Half Down':
+            self.control.swapStrategy(Estrategia.HALFDOWN)

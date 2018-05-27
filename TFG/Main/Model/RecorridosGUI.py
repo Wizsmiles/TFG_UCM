@@ -60,7 +60,7 @@ class RecorridoGUI():
                 self.dk = True
             return self.heaviestFirst(nodo.padre)
 
-    def divideHalf(self, nodo):
+    def halfDown(self, nodo):
         descendientes = []
         validos = 0
 

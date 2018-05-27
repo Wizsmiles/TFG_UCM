@@ -6,7 +6,7 @@ import View.View as View
 class Estrategia(Enum):
     TOPDOWN = 1
     HEAVIESTFIRST = 2
-    DIVIDEHALF = 3
+    HALFDOWN = 3
 
 class Recorrido():
     def __init__(self, tree):
@@ -152,12 +152,12 @@ class Recorrido():
 
 
 
-###################################DIVIDEHALF############################
+###################################HALFDOWN############################
     def inicializarDAH(self):
-        self.DIVIDEHALF(self.arbol)
+        self.HALFDOWN(self.arbol)
         self.ended = True
 
-    def DIVIDEHALF(self, nodo):
+    def HALFDOWN(self, nodo):
         if len(nodo.hijos) != 0:
             descendientes = []
             validos = 0
@@ -196,7 +196,7 @@ class Recorrido():
                             self.desconocidos.append(nodo.hijos[j])
 
                         if(nodo.hijos[j].estado == Nodo.Estado.VALIDO or nodo.hijos[j].estado == Nodo.Estado.CONFIAR or nodo.hijos[j].estado == Nodo.Estado.INACEPTABLE or nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO):
-                            self.DIVIDEHALF(nodo)
+                            self.HALFDOWN(nodo)
                         else:
                             self.nodoBuggy = nodo
                             self.buggy = True
@@ -216,21 +216,14 @@ class Recorrido():
                     n = abs(nodo.nNodos/2 - nodo.hijos[j].nNodos)
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                         found = True
-                        self.DIVIDEHALF(nodo.hijos[j])
+                        self.HALFDOWN(nodo.hijos[j])
                         if self.arbol.nNodos == 1:
                             self.nodoBuggy = nodo.hijos[j]
                             self.buggy = True
                             self.buggyMsj()
                         else:
                             print(self.arbol.nNodos)
-                            self.DIVIDEHALF(self.arbol)
-
-                        # if(self.buggy == False):
-                            # self.DIVIDEHALF(nodo)
-                        # else:
-                        #     self.nodoBuggy = nodo
-                        #     self.buggy = True
-                        #     self.buggyMsj()
+                            self.HALFDOWN(self.arbol)
                     j = j + 1
         else:
             self.nodoBuggy = nodo
@@ -252,7 +245,7 @@ class Recorrido():
             if(nb == "e"):
                 while(nb!="td" and nb!="hf" and nb!="dq"):
                     print("\nEstas son las estrategias disponibles:")
-                    nb = input(" - td (TOPDOWN)\n - hf (HEAVIESTFIRST)\n - dq (DIVIDEHALF)\nSelecciona tu estrategia:")
+                    nb = input(" - td (TOPDOWN)\n - hf (HEAVIESTFIRST)\n - dq (HALFDOWN)\nSelecciona tu estrategia:")
                     if(nb == "td"):
                         self.estrategia = Estrategia.TOPDOWN
                         self.topDown(nodo.padre)
@@ -262,8 +255,8 @@ class Recorrido():
                         self.heaviestFirst(nodo.padre)
 
                     elif(nb == "dq"):
-                        self.estrategia = Estrategia.DIVIDEHALF
-                        self.DIVIDEHALF(nodo.padre)
+                        self.estrategia = Estrategia.HALFDOWN
+                        self.HALFDOWN(nodo.padre)
 
                     else:
                         print("\nERROR: '" + nb + "' no se corresponde con ninguna de las estrategias.")
@@ -289,8 +282,8 @@ class Recorrido():
                     self.topDown(nodo)
                 if(self.estrategia == Estrategia.HEAVIESTFIRST):
                     self.heaviestFirst(nodo)
-                if(self.estrategia == Estrategia.DIVIDEHALF):
-                    self.DIVIDEHALF(nodo)
+                if(self.estrategia == Estrategia.HALFDOWN):
+                    self.HALFDOWN(nodo)
             else:
                 print("\nERROR: el comando '" + nb + "' no se corresponde con ninguna de las opciones disponibles.")
 
@@ -335,6 +328,6 @@ class Recorrido():
                             self.topDown(self.arbol)
                         if(self.estrategia == Estrategia.HEAVIESTFIRST):
                             self.heaviestFirst(self.arbol)
-                        if(self.estrategia == Estrategia.DIVIDEHALF):
-                            self.DIVIDEHALF(self.arbol)
+                        if(self.estrategia == Estrategia.HALFDOWN):
+                            self.HALFDOWN(self.arbol)
             j = j+1
