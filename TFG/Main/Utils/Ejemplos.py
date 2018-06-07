@@ -100,7 +100,7 @@ def euclides_rec(num1,num2):
 
 def myQuickSort():
     array = [3,6,2,7,1]
-    quickSort(array)
+    array = quickSort(array)
 
     for element in array:
         print(str(element) + "\n")
@@ -131,7 +131,7 @@ def quickSort(arr):
 
 def myMergeSort():
     array = [3,6,2,7,1]
-    mergeSort(array)
+    array = mergeSort(array)
 
     for element in array:
         print(str(element) + "\n")
