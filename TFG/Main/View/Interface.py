@@ -16,11 +16,7 @@ Config.set('graphics', 'height', '900')
 
 
 tree = Nodo()
-tv = TreeView(
-    root_options=dict(text='Tree One'),
-    hide_root=True,
-    indent_level=20
-)
+tv = None
 
 
 
@@ -56,7 +52,7 @@ class MainFrame(BoxLayout):
 
 
 class InterfaceApp(App):
-    title = "Buggy debugger"
+    title = "Debuggy"
 
     def __init__(self, **kwargs):
         super(InterfaceApp, self).__init__(**kwargs)
@@ -131,8 +127,13 @@ def showBuggyFunction(name, params, namedk, paramsdk):
 
 
 def initGUI(arbol, controlador):
-    global tree, controller
+    global tree, controller, tv
     tree = arbol
+    tv = TreeView(
+        root_options=dict(text='Tree One'),
+        hide_root=True,
+        indent_level=20
+    )
     controller = controlador
     ia = InterfaceApp()
     ia.run()
