@@ -164,7 +164,7 @@ class Recorrido():
 
             for i in nodo.hijos:
                 if i.estado == Nodo.Estado.INDEFINIDO:
-                    descendientes.append(abs(nodo.nNodos/2 - i.nNodos))
+                    descendientes.append(abs((nodo.nNodos-1)/2 - i.nNodos))
                 elif i.estado == Nodo.Estado.VALIDO or i.estado == Nodo.Estado.CONFIAR or i.estado == Nodo.Estado.INACEPTABLE:
                     validos = validos + 1
 
@@ -187,7 +187,7 @@ class Recorrido():
                 j = 0
 
                 while (not found):
-                    n = abs(nodo.nNodos/2 - nodo.hijos[j].nNodos)
+                    n = abs((nodo.nNodos-1)/2 - nodo.hijos[j].nNodos)
 
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.INDEFINIDO:
                         found = True
@@ -208,12 +208,12 @@ class Recorrido():
                 descendientes = []
                 for i in nodo.hijos:
                     if i.estado == Nodo.Estado.DESCONOCIDO:
-                        descendientes.append(abs(nodo.nNodos/2 - i.nNodos))
+                        descendientes.append(abs((nodo.nNodos-1)/2 - i.nNodos))
                 found = False
                 j = 0
 
                 while (not found):
-                    n = abs(nodo.nNodos/2 - nodo.hijos[j].nNodos)
+                    n = abs((nodo.nNodos-1)/2 - nodo.hijos[j].nNodos)
                     if n == min(descendientes) and nodo.hijos[j].estado == Nodo.Estado.DESCONOCIDO:
                         found = True
                         self.HALFDOWN(nodo.hijos[j])

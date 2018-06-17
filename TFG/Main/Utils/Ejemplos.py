@@ -102,9 +102,6 @@ def myQuickSort():
     array = [3,6,2,7,1]
     array = quickSort(array)
 
-    for element in array:
-        print(str(element) + "\n")
-
 def quickSort(arr):
     less = []
     pivotList = []
@@ -114,7 +111,7 @@ def quickSort(arr):
         return arr
 
     else:
-        pivot = arr[0]
+        pivot = arr[1]
         for i in arr:
             if i < pivot:
                 less.append(i)
@@ -125,16 +122,13 @@ def quickSort(arr):
 
         less = quickSort(less)
         more = quickSort(more)
-        return less + pivotList + more
+        return more + pivotList + less
 
 # Codigo ejemplo de MergeSort
 
 def myMergeSort():
     array = [3,6,2,7,1]
     array = mergeSort(array)
-
-    for element in array:
-        print(str(element) + "\n")
 
 def mergeSort(m):
     if len(m) <= 1:
@@ -165,3 +159,58 @@ def merge(left, right):
     if right_idx < len(right):
         result.extend(right[right_idx:])
     return result
+
+
+
+def A():
+    return B() + C() + D()
+    
+def B():
+    return 2
+    
+def C():
+    return E() + 2
+
+def D():
+    return F() - E()
+
+def E():
+    return 3
+
+def F():
+    return 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
